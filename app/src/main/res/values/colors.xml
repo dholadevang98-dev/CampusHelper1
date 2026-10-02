@@ -43,9 +43,11 @@
     <color name="icon_bg_timetable">#221F45</color>
     <color name="icon_bg_canteen">#362B14</color>
     <color name="icon_bg_library">#133327</color>
+    <color name="icon_bg_syllabus">#152C3E</color>
     <color name="icon_bg_lost_found">#381825</color>
     <color name="icon_bg_helpdesk">#132B3C</color>
     <color name="icon_bg_alerts">#371818</color>
+    <color name="icon_bg_profile">#221F45</color>
     <color name="icon_bg_admin">#13322E</color>
 
     <!-- Input Field Colors -->

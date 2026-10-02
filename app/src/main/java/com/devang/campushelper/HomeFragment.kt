@@ -5,9 +5,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,21 +24,27 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
+
+    private fun dpToPx(dp: Int): Int = (dp * resources.displayMetrics.density).toInt()
 
     private lateinit var prefHelper: PreferenceHelper
     private var currentRole: UserRole = UserRole.STUDENT
     private var activeNavTab: Int = 0
 
     enum class UserRole {
-        STUDENT, FACULTY, ADMIN
+        STUDENT, ADMIN
     }
 
     data class ModuleConfig(
@@ -75,7 +84,6 @@ class HomeFragment : Fragment() {
 
         // 2. Role Switcher
         val btnRoleStudent = view.findViewById<TextView>(R.id.btnRoleStudent)
-        val btnRoleFaculty = view.findViewById<TextView>(R.id.btnRoleFaculty)
         val btnRoleAdmin = view.findViewById<TextView>(R.id.btnRoleAdmin)
         val tvRoleBadgeHeader = view.findViewById<TextView>(R.id.tvRoleBadgeHeader)
 
@@ -157,6 +165,7 @@ class HomeFragment : Fragment() {
         val btnViewAllNotices = view.findViewById<TextView>(R.id.btnViewAllNotices)
         val cardCircular1 = view.findViewById<MaterialCardView>(R.id.cardCircular1)
         val cardCircular2 = view.findViewById<MaterialCardView>(R.id.cardCircular2)
+        val cardCircular3 = view.findViewById<MaterialCardView>(R.id.cardCircular3)
 
         // 8. Bottom Navigation Dock
         val navTabHome = view.findViewById<LinearLayout>(R.id.navTabHome)
@@ -175,10 +184,11 @@ class HomeFragment : Fragment() {
                 iconRes = R.drawable.ic_notices,
                 accentColorRes = R.color.accent_cyan,
                 tagColorRes = R.color.accent_cyan_light,
-                description = "Centralized official announcements from Gujarat Technological University (GTU) and the IT Department.",
-                highlightHeader = "Active Circulars",
-                highlightBody = "1. Mid-Semester Exam Schedule 2026 (PDF)\n2. Annual TechFest 'IGNITE 2026' Team Registration\n3. IT Lab 3 Server Upgrades Notice",
-                btnText = "📥 Download All Circulars"
+                description = "Centralized official announcements and examination marksheets from Gujarat Technological University (GTU) and the IT Department.",
+                highlightHeader = "Active Notices & Results",
+                highlightBody = "• Sem5 - Mid Sem Result.pdf (Sem 5-A, 5-B, 5-C Marksheet)\n• GTU_National_Seminar.pdf (AI & Quantum Frontiers)\n• 20260917191103-92cb7308c6.pdf (GTU Remedial Exam Forms)",
+                btnText = "📄 View Official Notices",
+                customAction = { showNoticesAndCircularsSheet() }
             ),
             ModuleConfig(
                 title = "Timetable & Events",
@@ -206,18 +216,6 @@ class HomeFragment : Fragment() {
                 btnText = "🎟️ Pre-Order Food Token"
             ),
             ModuleConfig(
-                title = "Digital Library",
-                subtitle = "Book search & reading seats",
-                tag = "38 Free",
-                iconRes = R.drawable.ic_library,
-                accentColorRes = R.color.accent_emerald,
-                tagColorRes = R.color.accent_emerald_light,
-                description = "Institutional physical and digital book repository, book availability lookup, return date tracking, and quiet study hall seat monitor.",
-                highlightHeader = "Library & Reading Hall Status",
-                highlightBody = "• 'Operating System Concepts' (Silberschatz) — Due in 3 days\n• 'Database System Concepts' (Korth) — Renewed\n• Free Seats in Reading Room: 38 / 50 available\n• Total Books Cataloged: 5,000+ volumes",
-                btnText = "🔍 Search Library Catalog"
-            ),
-            ModuleConfig(
                 title = "GTU Syllabus",
                 subtitle = "5 IT Subjects • PDF Download",
                 tag = "2026-27",
@@ -232,27 +230,27 @@ class HomeFragment : Fragment() {
             ),
             ModuleConfig(
                 title = "Lost & Found",
-                subtitle = "Report, track & claim items",
+                subtitle = "Track & claim verified items",
                 tag = "4 Active",
                 iconRes = R.drawable.ic_lost_found,
                 accentColorRes = R.color.accent_rose,
                 tagColorRes = R.color.accent_rose_light,
-                description = "Report misplaced campus items with photo tags or browse recently recovered articles verified by campus security.",
+                description = "Browse recently recovered articles verified by campus security.",
                 highlightHeader = "Recently Reported Items",
                 highlightBody = "• [FOUND] Boat Airdopes Case (Library 2nd Floor)\n• [FOUND] Fastrack Black Watch (Canteen Area)\n• [LOST] Blue Spiral Notebook (Lab 302)\n• [FOUND] GP Rajkot Student ID Card",
-                btnText = "➕ Report Lost / Found Item"
+                btnText = ""
             ),
             ModuleConfig(
                 title = "Helpdesk & Grievance",
                 subtitle = "Direct student-to-dept support",
-                tag = "24/7",
+                tag = "Official",
                 iconRes = R.drawable.ic_helpdesk,
                 accentColorRes = R.color.accent_sky,
                 tagColorRes = R.color.accent_sky_light,
-                description = "Directly report department issues, request lab assistance, or get instant AI responses for recurring campus queries.",
-                highlightHeader = "Active Ticket Status",
-                highlightBody = "• Ticket #1042: Lab 3 WiFi Connectivity — [Resolved ✅]\n• Ticket #1089: Projector replacement — [In Progress ⚙️]\n• Average response time: < 24 hours",
-                btnText = "📝 Submit Grievance Ticket"
+                description = "Number:-02812387553\nwebsite:-https://sites.google.com/view/gprajkot620/home?pli=1\nEmail:-gp-rajkot-dte@gujarat.gov.in",
+                highlightHeader = "Official Department Contacts",
+                highlightBody = "• Number: 02812387553\n• Website: https://sites.google.com/view/gprajkot620/home?pli=1\n• Email: gp-rajkot-dte@gujarat.gov.in",
+                btnText = ""
             ),
             ModuleConfig(
                 title = "Campus Alerts",
@@ -264,7 +262,7 @@ class HomeFragment : Fragment() {
                 description = "High-priority push broadcast system for emergency campus notices, GTU circulars, weather alerts, and fests.",
                 highlightHeader = "Recent Broadcasts",
                 highlightBody = "• Urgent: Heavy rain alert issued by GTU for tomorrow\n• Reminder: Submit project synopsis before Friday 4 PM\n• Seminar on Cloud Computing at 2 PM Auditorium",
-                btnText = "🔔 Notification Settings"
+                btnText = ""
             ),
             ModuleConfig(
                 title = "Student Profile",
@@ -276,110 +274,7 @@ class HomeFragment : Fragment() {
                 description = "Institutional Student Identity Record verified under Government Polytechnic, Rajkot.",
                 highlightHeader = "Student Academic Details",
                 highlightBody = "• Name: $savedName\n• Department: ${prefHelper.department}\n• Enrollment: ${prefHelper.enrollmentNo.ifEmpty { "Verified Student" }}\n• Phone: ${prefHelper.userPhone.ifEmpty { "Linked" }}",
-                btnText = "⚙️ Manage Profile & Settings"
-            )
-        )
-
-        val facultyModules = listOf(
-            ModuleConfig(
-                title = "Student Attendance",
-                subtitle = "Mark & view batch attendance",
-                tag = "Lab 302",
-                iconRes = R.drawable.ic_check,
-                accentColorRes = R.color.accent_emerald,
-                tagColorRes = R.color.accent_emerald_light,
-                description = "Mark student presence for today's lectures and lab sessions. Real-time sync with department attendance master.",
-                highlightHeader = "Class Allocation",
-                highlightBody = "• Subject: Data Structures & Algorithms Lab\n• Scheduled Time: 11:00 AM - 1:00 PM\n• Total Students: 48 (Batch A & B)\n• Minimum attendance requirement: 75%",
-                btnText = "📋 Open Attendance Register",
-                customAction = { showFacultyAttendanceSheet() }
-            ),
-            ModuleConfig(
-                title = "Publish Notice",
-                subtitle = "Post assignment or circular",
-                tag = "Compose",
-                iconRes = R.drawable.ic_notices,
-                accentColorRes = R.color.accent_cyan,
-                tagColorRes = R.color.accent_cyan_light,
-                description = "Broadcast announcements, homework assignments, or lab test circulars directly to student dashboards.",
-                highlightHeader = "Active Broadcast Target",
-                highlightBody = "• Target Audience: IT Semester 4 Students\n• Broadcast Channels: In-App Push & Portal Noticeboard\n• Attachment Formats: PDF, PPT, Code ZIP",
-                btnText = "📢 Compose Class Announcement",
-                customAction = { showPublishNoticeDialog() }
-            ),
-            ModuleConfig(
-                title = "Teaching Schedule",
-                subtitle = "Lecture & lab allocation",
-                tag = "2 Classes",
-                iconRes = R.drawable.ic_timetable,
-                accentColorRes = R.color.splash_accent_glow,
-                tagColorRes = R.color.splash_accent_glow,
-                description = "View your weekly faculty teaching load, assigned lecture rooms, and request faculty substitution.",
-                highlightHeader = "Today's Teaching Duties",
-                highlightBody = "• 11:00 AM - 01:00 PM: DSA Practical (Lab 302)\n• 02:30 PM - 03:30 PM: Web Technology (Room 204)\n• 03:45 PM - 04:30 PM: Student Project Evaluation",
-                btnText = "📅 Request Room Swap / Leave"
-            ),
-            ModuleConfig(
-                title = "Student Directory",
-                subtitle = "Browse GTU 620 roster",
-                tag = "116 Records",
-                iconRes = R.drawable.ic_person,
-                accentColorRes = R.color.accent_sky,
-                tagColorRes = R.color.accent_sky_light,
-                description = "Search student profiles across all 10 engineering disciplines at Government Polytechnic, Rajkot.",
-                highlightHeader = "Roster Directory Access",
-                highlightBody = "• Active Students: 116 verified profiles\n• Quick search by 12-digit Enrollment or Student Name\n• View past semester academic results & contact info",
-                btnText = "👥 Browse Student Directory",
-                customAction = { showStudentDirectorySheet() }
-            ),
-            ModuleConfig(
-                title = "Syllabus Tracker",
-                subtitle = "Track semester curriculum",
-                tag = "5 Subjects",
-                iconRes = R.drawable.ic_library,
-                accentColorRes = R.color.accent_amber,
-                tagColorRes = R.color.accent_amber_light,
-                description = "Monitor GTU Diploma IT Semester 5 syllabus completion milestones, unit weights, exam schemes, and practical lists.",
-                highlightHeader = "Active GTU Curriculum",
-                highlightBody = "• AI with Prompt Engineering (DI05016011) — 4 Credits\n• AI Product Design (DI05016021) — 4 Credits\n• Cloud & Data Center Tech (DI05016031) — 4 Credits\n• Structured Programming with C (DI05016061) — 4 Credits\n• Emotional Intelligence & Wellbeing (DI05016081) — 3 Credits",
-                btnText = "📊 Inspect Subject Syllabus",
-                customAction = { showSyllabusDirectorySheet() }
-            ),
-            ModuleConfig(
-                title = "Internal Marks",
-                subtitle = "Mid-sem & termwork grades",
-                tag = "Entry Open",
-                iconRes = R.drawable.ic_helpdesk,
-                accentColorRes = R.color.accent_violet,
-                tagColorRes = R.color.accent_violet,
-                description = "Submit continuous evaluation marks, lab record grades, and mid-semester theory examination scores.",
-                highlightHeader = "Evaluation Deadlines",
-                highlightBody = "• Mid-Semester Component: 30 Marks\n• Termwork / Practical File: 25 Marks\n• Portal submission deadline: 25th October 2026",
-                btnText = "📝 Enter Student Marks"
-            ),
-            ModuleConfig(
-                title = "Faculty Notices",
-                subtitle = "Staff memos & meeting dates",
-                tag = "3 Memos",
-                iconRes = R.drawable.ic_bell,
-                accentColorRes = R.color.accent_rose,
-                tagColorRes = R.color.accent_rose_light,
-                description = "Departmental staff memos, HOD review meetings, and GTU exam duty notifications.",
-                highlightHeader = "Staff Bulletin",
-                highlightBody = "• Department Meeting: Thursday 4:00 PM at Seminar Hall\n• Submission of Mid-Sem Question Papers by Friday\n• GTU External Examiner duty list announced",
-                btnText = "📑 View Department Minutes"
-            ),
-            ModuleConfig(
-                title = "HOD Lab Console",
-                subtitle = "Lab systems & software setup",
-                tag = "IT Dept",
-                iconRes = R.drawable.ic_admin,
-                accentColorRes = R.color.accent_teal,
-                tagColorRes = R.color.accent_teal_light,
-                description = "Manage computer lab hardware, software license deployments, and system maintenance logs.",
-                highlightHeader = "Lab Infrastructure",
-                highlightBody = "• Lab 301: 45 Systems (All Active)\n• Lab 302: 60 Systems (5 Network Ports Serviced)\n• Server Room: UPS Battery backup optimal",
-                btnText = "⚙️ Configure Lab Resources"
+                btnText = ""
             )
         )
 
@@ -430,9 +325,9 @@ class HomeFragment : Fragment() {
                 iconRes = R.drawable.ic_helpdesk,
                 accentColorRes = R.color.accent_sky,
                 tagColorRes = R.color.accent_sky_light,
-                description = "Central campus grievance desk. Review student and faculty tickets, assign department officers, and log resolutions.",
+                description = "Central campus grievance desk. Review student tickets, assign department officers, and log resolutions.",
                 highlightHeader = "Ticket Queue",
-                highlightBody = "• #1092: Hostel Water Supply — [Under Review ⚙️]\n• #1094: Lab 3 Wi-Fi Speed — [Assigned to IT Admin]\n• #1085: Library card renewal — [Resolved ✅]\n• 94% 24-hr resolution rate",
+                highlightBody = "• #1092: Hostel Water Supply — [Under Review ⚙️]\n• #1094: Lab 3 Wi-Fi Speed — [Assigned to IT Admin]\n• #1085: Fee receipt query — [Resolved ✅]\n• 94% 24-hr resolution rate",
                 btnText = "⚖️ Resolve Campus Grievances"
             ),
             ModuleConfig(
@@ -496,9 +391,6 @@ class HomeFragment : Fragment() {
             btnRoleStudent.background = if (role == UserRole.STUDENT) activeBg else inactiveBg
             btnRoleStudent.setTextColor(if (role == UserRole.STUDENT) activeColor else inactiveColor)
 
-            btnRoleFaculty.background = if (role == UserRole.FACULTY) activeBg else inactiveBg
-            btnRoleFaculty.setTextColor(if (role == UserRole.FACULTY) activeColor else inactiveColor)
-
             btnRoleAdmin.background = if (role == UserRole.ADMIN) activeBg else inactiveBg
             btnRoleAdmin.setTextColor(if (role == UserRole.ADMIN) activeColor else inactiveColor)
 
@@ -510,41 +402,24 @@ class HomeFragment : Fragment() {
                     tvDepartment.text = "$userDept$userEnroll"
                     tvRoleBadgeHeader.text = "Student Portal"
 
-                    // Hero
+                    // Hero Live Pulse
                     tvHeroBadge.text = "📡 LIVE PULSE"
                     tvHeroCountdown.text = "Starts in 18 mins"
                     tvHeroSubject.text = "Data Structures & Algorithms"
                     tvHeroSchedule.text = "⏰ 11:00 AM - 12:00 PM • Lab 302 (Prof. Mehta)"
                     chipCanteenStatus.text = "🟢 Canteen: Open (Low Wait)"
-                    chipLibraryStatus.text = "📚 Library: 38 Seats Free"
+                    chipLibraryStatus.text = "⚡ Lab 302: Active"
                     chipNoticeStatus.text = "📢 3 New Circulars"
 
                     tvSectionTitle.text = "Student Campus Services"
                     studentModules
-                }
-                UserRole.FACULTY -> {
-                    tvGreeting.text = "Welcome, Prof. $savedName 👨‍🏫"
-                    tvDepartment.text = "IT Dept • Faculty of Engineering (GP Rajkot)"
-                    tvRoleBadgeHeader.text = "Faculty Portal"
-
-                    // Hero
-                    tvHeroBadge.text = "📋 TEACHING DUTY"
-                    tvHeroCountdown.text = "Next Class in 45 mins"
-                    tvHeroSubject.text = "Conduct DSA Practical • Batch A & B"
-                    tvHeroSchedule.text = "⏰ 11:00 AM - 1:00 PM • Lab 302 • 48 Students Enrolled"
-                    chipCanteenStatus.text = "👥 48 Enrolled"
-                    chipLibraryStatus.text = "📝 12 Submissions Pending"
-                    chipNoticeStatus.text = "🏛️ Lab 302 Workstations Ready"
-
-                    tvSectionTitle.text = "Faculty Academic Console"
-                    facultyModules
                 }
                 UserRole.ADMIN -> {
                     tvGreeting.text = "System Administrator 🛡️"
                     tvDepartment.text = "Government Polytechnic, Rajkot Central Admin"
                     tvRoleBadgeHeader.text = "Admin Portal"
 
-                    // Hero
+                    // Hero Live Pulse
                     tvHeroBadge.text = "🛡️ CENTRAL HUB"
                     tvHeroCountdown.text = "System Healthy"
                     tvHeroSubject.text = "Campus Operations & Security Control"
@@ -594,10 +469,6 @@ class HomeFragment : Fragment() {
         btnRoleStudent.setOnClickListener {
             updateRoleUI(UserRole.STUDENT)
             Toast.makeText(requireContext(), "Switched to Student Portal 🎓", Toast.LENGTH_SHORT).show()
-        }
-        btnRoleFaculty.setOnClickListener {
-            updateRoleUI(UserRole.FACULTY)
-            Toast.makeText(requireContext(), "Switched to Faculty Academic Console 👨‍🏫", Toast.LENGTH_SHORT).show()
         }
         btnRoleAdmin.setOnClickListener {
             updateRoleUI(UserRole.ADMIN)
@@ -730,7 +601,6 @@ class HomeFragment : Fragment() {
         heroCard.setOnClickListener {
             when (currentRole) {
                 UserRole.STUDENT -> cards[1].performClick()
-                UserRole.FACULTY -> showFacultyAttendanceSheet()
                 UserRole.ADMIN -> showAdminBroadcastSheet()
             }
         }
@@ -739,10 +609,17 @@ class HomeFragment : Fragment() {
         chipLibraryStatus.setOnClickListener { cards[3].performClick() }
         chipNoticeStatus.setOnClickListener { cards[0].performClick() }
 
-        // Urgent Circular Highlights
-        btnViewAllNotices.setOnClickListener { cards[0].performClick() }
-        cardCircular1.setOnClickListener { cards[0].performClick() }
-        cardCircular2.setOnClickListener { cards[1].performClick() }
+        // Urgent Circular Highlights - Individual PDF Openers
+        btnViewAllNotices.setOnClickListener { showNoticesAndCircularsSheet() }
+        cardCircular1.setOnClickListener {
+            NoticeDownloadUtil.openCircularPdf(requireContext(), "Sem5 - Mid Sem Result.pdf", "Semester 5 Mid-Sem Exam Results")
+        }
+        cardCircular2.setOnClickListener {
+            NoticeDownloadUtil.openCircularPdf(requireContext(), "GTU_National_Seminar.pdf", "GTU National Seminar: AI & Quantum Frontiers")
+        }
+        cardCircular3?.setOnClickListener {
+            NoticeDownloadUtil.openCircularPdf(requireContext(), "20260917191103-92cb7308c6.pdf", "GTU Remedial Exam Forms Circular (Winter 2026)")
+        }
 
         // Profile and Notifications
         btnNotifications.setOnClickListener { cards[6].performClick() }
@@ -959,9 +836,25 @@ class HomeFragment : Fragment() {
         searchSheet.show()
     }
 
-    // ==================== FACULTY TOOLS ====================
 
-    private fun showFacultyAttendanceSheet() {
+
+    private fun showStudentDirectorySheet() {
+        showModuleBottomSheet(
+            title = "GP Rajkot Student Directory",
+            subtitle = "Institutional Code: 620 • 116 Active Students",
+            tag = "MASTER ROSTER",
+            iconRes = R.drawable.ic_person,
+            accentColorRes = R.color.accent_sky,
+            description = "Complete student enrollment directory loaded from Gujarat Technological University master roster.",
+            highlightHeader = "Enrolled Engineering Branches",
+            highlightBody = "• Information Technology (Branch 16): 62 Students\n• Computer Engineering (Branch 07): 20 Students\n• Mechanical Engineering (Branch 19): 12 Students\n• Electrical & Civil Engineering: 22 Students",
+            btnText = "🔍 Open Full Roster Inspector"
+        )
+    }
+
+    // ==================== NOTICES & CIRCULARS DOWNLOAD & VIEWER ====================
+
+    private fun showNoticesAndCircularsSheet() {
         val bottomSheet = BottomSheetDialog(requireContext())
         bottomSheet.expandAndEnableScrolling()
         val sheetView = layoutInflater.inflate(R.layout.layout_bottom_sheet_module, null)
@@ -976,56 +869,140 @@ class HomeFragment : Fragment() {
         val sheetHighlightBody = sheetView.findViewById<TextView>(R.id.sheetHighlightBody)
         val sheetPrimaryBtn = sheetView.findViewById<MaterialButton>(R.id.sheetPrimaryBtn)
 
-        val accentColor = ContextCompat.getColor(requireContext(), R.color.accent_emerald)
-        sheetIcon.setImageResource(R.drawable.ic_check)
+        val accentColor = ContextCompat.getColor(requireContext(), R.color.accent_cyan)
+        sheetIcon.setImageResource(R.drawable.ic_notices)
         sheetIcon.imageTintList = ColorStateList.valueOf(accentColor)
         sheetTag.setTextColor(accentColor)
         sheetPrimaryBtn.backgroundTintList = ColorStateList.valueOf(accentColor)
 
-        sheetTitle.text = "Class Attendance Register"
-        sheetSubtitle.text = "Data Structures Lab (Lab 302) • Batch A & B"
-        sheetTag.text = "LIVE SESSION"
-        sheetDescription.text = "Today's student attendance for Semester 4 Diploma IT. Live sync with Gujarat Technological University records."
-        sheetHighlightHeader.text = "Current Attendance Roster"
-        sheetHighlightBody.text = "• 236200316165 - Rank Ish Chetanbhai [Present ✅]\n• 246200316001 - Akhai Ismailyusufbhai [Present ✅]\n• 246200316002 - Ambaliya Jainil [Present ✅]\n• 246200316003 - Amreliya Vatsal [Present ✅]\n• 246200316004 - Anjani Satyajeet [Present ✅]\n• 42 / 48 Students Logged (87.5% Present)"
-        sheetPrimaryBtn.text = "✅ Submit Final Attendance to HOD"
+        val sheetHighlightContainer = sheetView.findViewById<LinearLayout>(R.id.sheetHighlightContainer)
 
-        sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
-        sheetPrimaryBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Attendance for Lab 302 submitted successfully! 🎓", Toast.LENGTH_LONG).show()
-            bottomSheet.dismiss()
+        sheetTitle.text = "Notices & Results"
+        sheetSubtitle.text = "Official circulars & exam marksheets"
+        sheetTag.text = "3 NEW"
+        sheetDescription.text = "Centralized official announcements and examination marksheets from Gujarat Technological University (GTU) and the IT Department. Tap any item below to open the authentic original PDF."
+        sheetHighlightHeader.text = "Official Attached Documents & Results (${NoticeDownloadUtil.NOTICES_LIST.size})"
+        sheetHighlightBody.visibility = View.GONE
+
+        // Distinct Section for each uploaded PDF
+        NoticeDownloadUtil.NOTICES_LIST.forEach { notice ->
+            val card = MaterialCardView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = dpToPx(10)
+                }
+                radius = dpToPx(14).toFloat()
+                cardElevation = 0f
+                strokeWidth = dpToPx(1)
+                setStrokeColor(ContextCompat.getColor(requireContext(), R.color.splash_card_border))
+                setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.glass_card_bg))
+                isClickable = true
+                isFocusable = true
+
+                val cardLayout = LinearLayout(requireContext()).apply {
+                    orientation = LinearLayout.VERTICAL
+                    setPadding(dpToPx(14), dpToPx(12), dpToPx(14), dpToPx(12))
+
+                    // Top meta row
+                    val topRow = LinearLayout(requireContext()).apply {
+                        orientation = LinearLayout.HORIZONTAL
+                        gravity = Gravity.CENTER_VERTICAL
+
+                        val badge = TextView(requireContext()).apply {
+                            text = notice.tag
+                            textSize = 10f
+                            typeface = Typeface.DEFAULT_BOLD
+                            val color = ContextCompat.getColor(requireContext(), notice.tagColorRes)
+                            setTextColor(color)
+                            setBackgroundResource(R.drawable.bg_badge_pill)
+                            backgroundTintList = ColorStateList.valueOf(
+                                Color.argb(35, Color.red(color), Color.green(color), Color.blue(color))
+                            )
+                            setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3))
+                        }
+
+                        val dateView = TextView(requireContext()).apply {
+                            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                            text = notice.dateText
+                            textSize = 11f
+                            gravity = Gravity.END
+                            setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted))
+                        }
+
+                        addView(badge)
+                        addView(dateView)
+                    }
+
+                    // Notice Title
+                    val titleView = TextView(requireContext()).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            topMargin = dpToPx(8)
+                        }
+                        text = notice.title
+                        textSize = 14f
+                        typeface = Typeface.DEFAULT_BOLD
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.splash_text_primary))
+                    }
+
+                    // Notice Description
+                    val descView = TextView(requireContext()).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            topMargin = dpToPx(4)
+                        }
+                        text = notice.description
+                        textSize = 12f
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.splash_text_secondary))
+                    }
+
+                    // Open Original PDF hint / button
+                    val actionRow = LinearLayout(requireContext()).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            topMargin = dpToPx(10)
+                        }
+                        gravity = Gravity.CENTER_VERTICAL
+                        orientation = LinearLayout.HORIZONTAL
+
+                        val openBtn = TextView(requireContext()).apply {
+                            text = "📄 Open Original PDF ↗"
+                            textSize = 12f
+                            typeface = Typeface.DEFAULT_BOLD
+                            setTextColor(ContextCompat.getColor(requireContext(), R.color.splash_accent_glow))
+                        }
+                        addView(openBtn)
+                    }
+
+                    addView(topRow)
+                    addView(titleView)
+                    addView(descView)
+                    addView(actionRow)
+                }
+
+                addView(cardLayout)
+
+                setOnClickListener {
+                    NoticeDownloadUtil.openCircularPdf(requireContext(), notice.fileName, notice.title)
+                }
+            }
+            sheetHighlightContainer.addView(card)
         }
+
+        // Circular download button removed as requested
+        sheetPrimaryBtn.visibility = View.GONE
+        sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
 
         bottomSheet.setContentView(sheetView)
         bottomSheet.show()
-    }
-
-    private fun showPublishNoticeDialog() {
-        showModuleBottomSheet(
-            title = "Publish Department Notice",
-            subtitle = "Target: All IT Students (Batch 2023-2026)",
-            tag = "COMPOSE",
-            iconRes = R.drawable.ic_notices,
-            accentColorRes = R.color.accent_cyan,
-            description = "Broadcast announcements, homework assignments, or lab test circulars directly to student dashboards and push notifications.",
-            highlightHeader = "Broadcast Details",
-            highlightBody = "• Target Audience: IT Semester 4 Students\n• Broadcast Channels: In-App Push & Portal Noticeboard\n• Attachment Formats: PDF, PPT, Code ZIP",
-            btnText = "📢 Publish Notice to Student Portals"
-        )
-    }
-
-    private fun showStudentDirectorySheet() {
-        showModuleBottomSheet(
-            title = "GP Rajkot Student Directory",
-            subtitle = "Institutional Code: 620 • 116 Active Students",
-            tag = "MASTER ROSTER",
-            iconRes = R.drawable.ic_person,
-            accentColorRes = R.color.accent_sky,
-            description = "Complete student enrollment directory loaded from Gujarat Technological University master roster.",
-            highlightHeader = "Enrolled Engineering Branches",
-            highlightBody = "• Information Technology (Branch 16): 62 Students\n• Computer Engineering (Branch 07): 20 Students\n• Mechanical Engineering (Branch 19): 12 Students\n• Electrical & Civil Engineering: 22 Students",
-            btnText = "🔍 Open Full Roster Inspector"
-        )
     }
 
     // ==================== DEDICATED GTU SYLLABUS DIRECTORY & VIEWER ====================
@@ -1446,12 +1423,25 @@ class HomeFragment : Fragment() {
         sheetDescription.text = description
         sheetHighlightHeader.text = highlightHeader
         sheetHighlightBody.text = highlightBody
-        sheetPrimaryBtn.text = btnText
+
+        if (btnText.trim().isEmpty()) {
+            sheetPrimaryBtn.visibility = View.GONE
+        } else {
+            sheetPrimaryBtn.visibility = View.VISIBLE
+            sheetPrimaryBtn.text = btnText
+        }
 
         sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
         sheetPrimaryBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "$title action triggered! 🚀", Toast.LENGTH_SHORT).show()
-            bottomSheet.dismiss()
+            if (btnText.contains("Download All Circulars", ignoreCase = true) ||
+                btnText.contains("View Official Notices", ignoreCase = true) ||
+                title.contains("Notices", ignoreCase = true)) {
+                bottomSheet.dismiss()
+                showNoticesAndCircularsSheet()
+            } else {
+                Toast.makeText(requireContext(), "$title action triggered! 🚀", Toast.LENGTH_SHORT).show()
+                bottomSheet.dismiss()
+            }
         }
 
         bottomSheet.setContentView(sheetView)

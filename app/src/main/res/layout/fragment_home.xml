@@ -191,20 +191,6 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/btnRoleFaculty"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_role_inactive"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="👨‍🏫 Faculty"
-                    android:textColor="@color/role_inactive_text"
-                    android:textSize="12sp" />
-
-                <TextView
                     android:id="@+id/btnRoleAdmin"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -742,7 +728,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Module 4: Digital Library -->
+                <!-- Module 4: GTU Syllabus -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardLibrary"
                     android:layout_width="0dp"
@@ -771,16 +757,16 @@
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
                                 android:background="@drawable/bg_badge_pill"
-                                android:backgroundTint="@color/icon_bg_library">
+                                android:backgroundTint="@color/icon_bg_syllabus">
 
                                 <ImageView
                                     android:id="@+id/ivModule4Icon"
                                     android:layout_width="22dp"
                                     android:layout_height="22dp"
                                     android:layout_gravity="center"
-                                    android:contentDescription="Library"
+                                    android:contentDescription="Syllabus"
                                     android:src="@drawable/ic_library"
-                                    app:tint="@color/accent_emerald" />
+                                    app:tint="@color/splash_accent_primary" />
                             </FrameLayout>
 
                             <TextView
@@ -789,12 +775,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="top|end"
                                 android:background="@drawable/bg_badge_pill"
-                                android:backgroundTint="@color/chip_green_bg"
+                                android:backgroundTint="@color/chip_cyan_bg"
                                 android:fontFamily="sans-serif-bold"
                                 android:paddingHorizontal="6dp"
                                 android:paddingVertical="2dp"
-                                android:text="5k+ Books"
-                                android:textColor="@color/accent_emerald_light"
+                                android:text="2026-27"
+                                android:textColor="@color/splash_accent_glow"
                                 android:textSize="10sp" />
                         </FrameLayout>
 
@@ -804,7 +790,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-black"
-                            android:text="Digital Library"
+                            android:text="GTU Syllabus"
                             android:textColor="@color/splash_text_primary"
                             android:textSize="15sp" />
 
@@ -814,7 +800,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="Book search &amp; due tracker"
+                            android:text="5 IT Subjects • PDF Download"
                             android:textColor="@color/splash_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -1070,7 +1056,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Module 8: Admin & Faculty Portal -->
+                <!-- Module 8: Student Profile -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardAdmin"
                     android:layout_width="0dp"
@@ -1099,16 +1085,16 @@
                                 android:layout_width="44dp"
                                 android:layout_height="44dp"
                                 android:background="@drawable/bg_badge_pill"
-                                android:backgroundTint="@color/icon_bg_admin">
+                                android:backgroundTint="@color/icon_bg_profile">
 
                                 <ImageView
                                     android:id="@+id/ivModule8Icon"
                                     android:layout_width="22dp"
                                     android:layout_height="22dp"
                                     android:layout_gravity="center"
-                                    android:contentDescription="Admin Console"
-                                    android:src="@drawable/ic_admin"
-                                    app:tint="@color/accent_teal" />
+                                    android:contentDescription="Student Profile"
+                                    android:src="@drawable/ic_person"
+                                    app:tint="@color/splash_accent_primary" />
                             </FrameLayout>
 
                             <TextView
@@ -1121,8 +1107,8 @@
                                 android:fontFamily="sans-serif-bold"
                                 android:paddingHorizontal="6dp"
                                 android:paddingVertical="2dp"
-                                android:text="Staff"
-                                android:textColor="@color/accent_teal_light"
+                                android:text="Verified"
+                                android:textColor="@color/accent_emerald_light"
                                 android:textSize="10sp" />
                         </FrameLayout>
 
@@ -1132,7 +1118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-black"
-                            android:text="Staff Portal"
+                            android:text="Student Profile"
                             android:textColor="@color/splash_text_primary"
                             android:textSize="15sp" />
 
@@ -1142,7 +1128,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="Publish &amp; manage dept"
+                            android:text="GTU 620 enrollment &amp; session"
                             android:textColor="@color/splash_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -1203,7 +1189,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Circular 1: Exam Timetable -->
+                    <!-- Circular 1: Sem 5 Mid Sem Result -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardCircular1"
                         android:layout_width="260dp"
@@ -1237,7 +1223,7 @@
                                     android:fontFamily="sans-serif-bold"
                                     android:paddingHorizontal="8dp"
                                     android:paddingVertical="2dp"
-                                    android:text="EXAM CIRCULAR"
+                                    android:text="MID-SEM RESULT"
                                     android:textColor="@color/accent_rose_light"
                                     android:textSize="10sp" />
 
@@ -1247,7 +1233,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="sans-serif"
                                     android:gravity="end"
-                                    android:text="Today"
+                                    android:text="Sept 2026"
                                     android:textColor="@color/text_muted"
                                     android:textSize="11sp" />
                             </LinearLayout>
@@ -1257,7 +1243,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-bold"
-                                android:text="Mid-Semester Exam Schedule 2026 Released"
+                                android:text="Mid-Semester Exam Marks (Sem 5-A, 5-B, 5-C)"
                                 android:textColor="@color/splash_text_primary"
                                 android:textSize="14sp" />
 
@@ -1266,13 +1252,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif"
-                                android:text="Exam begins from 10th Sept. Download syllabus."
+                                android:text="Official IT Department result sheet. Tap to view PDF."
                                 android:textColor="@color/splash_text_secondary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Circular 2: TechFest Hackathon -->
+                    <!-- Circular 2: GTU National Seminar -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardCircular2"
                         android:layout_width="260dp"
@@ -1306,7 +1292,7 @@
                                     android:fontFamily="sans-serif-bold"
                                     android:paddingHorizontal="8dp"
                                     android:paddingVertical="2dp"
-                                    android:text="HACKATHON"
+                                    android:text="SEMINAR"
                                     android:textColor="@color/accent_cyan_light"
                                     android:textSize="10sp" />
 
@@ -1316,7 +1302,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="sans-serif"
                                     android:gravity="end"
-                                    android:text="28 Aug"
+                                    android:text="30 Sep - 1 Oct"
                                     android:textColor="@color/text_muted"
                                     android:textSize="11sp" />
                             </LinearLayout>
@@ -1326,7 +1312,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="sans-serif-bold"
-                                android:text="State-Level Smart Gujarat Hackathon 2026"
+                                android:text="GTU National Seminar: AI &amp; Quantum Frontiers"
                                 android:textColor="@color/splash_text_primary"
                                 android:textSize="14sp" />
 
@@ -1335,7 +1321,76 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif"
-                                android:text="Register teams of 4 members before Friday."
+                                android:text="GTU Chandkheda campus research seminar. Tap to view PDF."
+                                android:textColor="@color/splash_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Circular 3: GTU Remedial Exam Forms -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardCircular3"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="@color/glass_card_bg"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/glass_card_border"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_badge_pill"
+                                    android:backgroundTint="@color/chip_amber_bg"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="2dp"
+                                    android:text="GTU CIRCULAR"
+                                    android:textColor="@color/accent_amber_light"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif"
+                                    android:gravity="end"
+                                    android:text="17 Sep"
+                                    android:textColor="@color/text_muted"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="GTU Remedial Exam Forms (Winter 2026)"
+                                android:textColor="@color/splash_text_primary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Diploma Engg Sem 1 &amp; 2 exam forms &amp; instructions."
                                 android:textColor="@color/splash_text_secondary"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -1460,7 +1515,7 @@
                     android:textSize="10sp" />
             </LinearLayout>
 
-            <!-- Nav 4: Library -->
+            <!-- Nav 4: Syllabus -->
             <LinearLayout
                 android:id="@+id/navTabLibrary"
                 android:layout_width="0dp"
@@ -1475,7 +1530,7 @@
                     android:id="@+id/navIconLibrary"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:contentDescription="Library"
+                    android:contentDescription="Syllabus"
                     android:src="@drawable/ic_nav_library"
                     app:tint="@color/nav_item_inactive" />
 
@@ -1485,7 +1540,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Library"
+                    android:text="Syllabus"
                     android:textColor="@color/nav_item_inactive"
                     android:textSize="10sp" />
             </LinearLayout>
