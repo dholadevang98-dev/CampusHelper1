@@ -205,113 +205,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- 3. Universal Campus Search Bar -->
-            <LinearLayout
-                android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_search_input"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="14dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="Search"
-                    android:src="@drawable/ic_search"
-                    app:tint="@color/input_hint" />
-
-                <EditText
-                    android:id="@+id/etCampusSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:fontFamily="sans-serif"
-                    android:hint="Search notices, library, lost items..."
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:textColor="@color/splash_text_primary"
-                    android:textColorHint="@color/input_hint"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:id="@+id/btnSearchClear"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="6dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="Clear"
-                    android:focusable="true"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_close"
-                    android:visibility="gone"
-                    app:tint="@color/text_muted" />
-
-                <ImageView
-                    android:id="@+id/btnSearchFilter"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:contentDescription="Filter"
-                    android:focusable="true"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_filter"
-                    app:tint="@color/splash_accent_glow" />
-            </LinearLayout>
-
-            <!-- 3.1 Live Inline Search Results Dropdown -->
-            <LinearLayout
-                android:id="@+id/layoutInlineSearchResults"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_glass_card"
-                android:orientation="vertical"
-                android:padding="12dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/tvInlineSearchCount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif-bold"
-                        android:text="Search Matches"
-                        android:textColor="@color/splash_accent_glow"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/btnViewFullSearchResults"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif-bold"
-                        android:text="Explore All ↗"
-                        android:textColor="@color/splash_accent_primary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layoutInlineResultsList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </LinearLayout>
 
             <!-- 4. Hero "Live Campus Pulse" Card -->
             <com.google.android.material.card.MaterialCardView
@@ -722,7 +616,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
-                            android:text="Live menu &amp; token tokens"
+                            android:text="Live menu"
                             android:textColor="@color/splash_text_secondary"
                             android:textSize="11sp" />
                     </LinearLayout>

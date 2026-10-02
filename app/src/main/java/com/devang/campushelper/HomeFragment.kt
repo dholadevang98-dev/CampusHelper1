@@ -1,6 +1,7 @@
 package com.devang.campushelper
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -86,11 +87,6 @@ class HomeFragment : Fragment() {
         val btnRoleStudent = view.findViewById<TextView>(R.id.btnRoleStudent)
         val btnRoleAdmin = view.findViewById<TextView>(R.id.btnRoleAdmin)
         val tvRoleBadgeHeader = view.findViewById<TextView>(R.id.tvRoleBadgeHeader)
-
-        // 3. Search Bar Elements
-        val etCampusSearch = view.findViewById<EditText>(R.id.etCampusSearch)
-        val btnSearchClear = view.findViewById<ImageView>(R.id.btnSearchClear)
-        val btnSearchFilter = view.findViewById<ImageView>(R.id.btnSearchFilter)
 
         // 4. Hero Live Pulse Card
         val heroCard = view.findViewById<MaterialCardView>(R.id.heroCard)
@@ -192,39 +188,40 @@ class HomeFragment : Fragment() {
             ),
             ModuleConfig(
                 title = "Timetable & Events",
-                subtitle = "Schedules & master timetable",
+                subtitle = "Official PDF • Master Timetable",
                 tag = "Odd 2026-27",
                 iconRes = R.drawable.ic_timetable,
                 accentColorRes = R.color.splash_accent_primary,
                 tagColorRes = R.color.splash_accent_glow,
-                description = "Government Polytechnic Rajkot Information Technology Department Master Time Table (Term Odd 2026-27) for Semesters 5-A, 5-B, and 5-C.",
-                highlightHeader = "Master Timetable Highlights",
-                highlightBody = "• Sem 5-A (Room 101): AIPD, CDCT, AIWPE, SPC Labs in APL-1/APL-2\n• Sem 5-B (Room 102): CDCT, AIWPE, SPC, Min Project\n• Sem 5-C (Room 103): AIWPE, CDCT, AIPD Labs, EIDW (T)\n• Teaching Slots: 11:00 AM - 06:00 PM (Monday to Saturday)",
-                btnText = "📄 Open & Download Time Table PDF",
+                description = "Government Polytechnic Rajkot Information Technology Department Official Master Time Table (Term Odd 2026-27) for Semesters 5-A, 5-B, and 5-C.",
+                highlightHeader = "Official Academic Dates & Master Timetable",
+                highlightBody = "• Sem 5 Term: 15/06/2026 To 30/10/2026 (Skill Training: 15/06 - 27/06)\n• Effective Date: W.E.F. 07/08/2026 • 30 Hours/Week\n• Sem 5-A (Rm 101), Sem 5-B (Rm 102), Sem 5-C (Rm 103)\n• Labs: APL-1, APL-2, BPL-1 | Mon - Sat Schedule",
+                btnText = "📄 Open & Download Official Time Table PDF",
                 customAction = { showTimeTableSheet() }
             ),
             ModuleConfig(
                 title = "Canteen Hub",
-                subtitle = "Live menu & token booking",
+                subtitle = "Today's Live Menu",
                 tag = "🟢 Open",
                 iconRes = R.drawable.ic_canteen,
                 accentColorRes = R.color.accent_amber,
                 tagColorRes = R.color.accent_amber_light,
-                description = "Check real-time counter rush, browse today's fresh menu, and pre-book food tokens without standing in queues.",
-                highlightHeader = "Today's Fresh Specials",
-                highlightBody = "• Paneer Butter Masala Thali — ₹80\n• Samosa & Masala Chai Combo — ₹30\n• Cold Coffee & Sandwich — ₹50\n• Estimated Wait: 4-6 minutes",
-                btnText = "🎟️ Pre-Order Food Token"
+                description = "Check real-time counter rush, operational timings, and browse today's fresh campus food court menu.",
+                highlightHeader = "Today's Live Fresh Menu",
+                highlightBody = "• Deluxe Gujarati Thali — ₹80\n• Samosa & Masala Chai Combo — ₹30\n• Cold Coffee & Veg Sandwich — ₹50\n• Chole Bhature Platter — ₹60\n• Counter Status: Open (Low Wait 2-4 mins)",
+                btnText = "🍽️ View Today's Live Menu",
+                customAction = { showCanteenLiveMenuSheet() }
             ),
             ModuleConfig(
                 title = "GTU Syllabus",
-                subtitle = "5 IT Subjects • PDF Download",
+                subtitle = "5 IT Subjects • Official PDFs",
                 tag = "2026-27",
                 iconRes = R.drawable.ic_library,
                 accentColorRes = R.color.splash_accent_primary,
                 tagColorRes = R.color.splash_accent_glow,
-                description = "Gujarat Technological University (GTU) Diploma IT Semester 5 official curriculum. View detailed unit topics, exam schemes, practical lists, and download authentic PDFs.",
+                description = "Gujarat Technological University (GTU) Diploma IT Semester 5 official curriculum. View detailed unit topics, exam schemes, practical lists, and open authentic PDFs.",
                 highlightHeader = "Semester 5 IT Curriculum",
-                highlightBody = "• DI05016011: AI with Prompt Engineering (4 CR)\n• DI05016021: AI Product Design (4 CR)\n• DI05016031: Cloud & Data Center Tech (4 CR)\n• DI05016061: Structured Programming with C (4 CR)\n• DI05016081: Emotional Intelligence & Wellbeing (3 CR)",
+                highlightBody = "• DI05016011: AI with Prompt Engineering (4 CR)\n• DI05016021: AI Product Design (4 CR)\n• DI05016031: Cloud & Data Center Tech (4 CR)\n• DI05016061: Structured Programming with C (4 CR)\n• DI05016081: Emotional Intelligence & Digital Wellbeing (3 CR)",
                 btnText = "📚 View & Download Syllabus PDFs",
                 customAction = { showSyllabusDirectorySheet() }
             ),
@@ -274,7 +271,114 @@ class HomeFragment : Fragment() {
                 description = "Institutional Student Identity Record verified under Government Polytechnic, Rajkot.",
                 highlightHeader = "Student Academic Details",
                 highlightBody = "• Name: $savedName\n• Department: ${prefHelper.department}\n• Enrollment: ${prefHelper.enrollmentNo.ifEmpty { "Verified Student" }}\n• Phone: ${prefHelper.userPhone.ifEmpty { "Linked" }}",
+<<<<<<< HEAD
                 btnText = ""
+=======
+                btnText = "⚙️ Manage Profile & Settings"
+            )
+        )
+
+        val facultyModules = listOf(
+            ModuleConfig(
+                title = "Student Attendance",
+                subtitle = "Mark & view batch attendance",
+                tag = "Lab 302",
+                iconRes = R.drawable.ic_check,
+                accentColorRes = R.color.accent_emerald,
+                tagColorRes = R.color.accent_emerald_light,
+                description = "Mark student presence for today's lectures and lab sessions. Real-time sync with department attendance master.",
+                highlightHeader = "Class Allocation",
+                highlightBody = "• Subject: Data Structures & Algorithms Lab\n• Scheduled Time: 11:00 AM - 1:00 PM\n• Total Students: 48 (Batch A & B)\n• Minimum attendance requirement: 75%",
+                btnText = "📋 Open Attendance Register",
+                customAction = { showFacultyAttendanceSheet() }
+            ),
+            ModuleConfig(
+                title = "Publish Notice",
+                subtitle = "Post assignment or circular",
+                tag = "Compose",
+                iconRes = R.drawable.ic_notices,
+                accentColorRes = R.color.accent_cyan,
+                tagColorRes = R.color.accent_cyan_light,
+                description = "Broadcast announcements, homework assignments, or lab test circulars directly to student dashboards.",
+                highlightHeader = "Active Broadcast Target",
+                highlightBody = "• Target Audience: IT Semester 4 Students\n• Broadcast Channels: In-App Push & Portal Noticeboard\n• Attachment Formats: PDF, PPT, Code ZIP",
+                btnText = "📢 Compose Class Announcement",
+                customAction = { showPublishNoticeDialog() }
+            ),
+            ModuleConfig(
+                title = "Teaching Schedule",
+                subtitle = "Lecture & lab allocation",
+                tag = "2 Classes",
+                iconRes = R.drawable.ic_timetable,
+                accentColorRes = R.color.splash_accent_glow,
+                tagColorRes = R.color.splash_accent_glow,
+                description = "View your weekly faculty teaching load, assigned lecture rooms, and request faculty substitution.",
+                highlightHeader = "Today's Teaching Duties",
+                highlightBody = "• 11:00 AM - 01:00 PM: DSA Practical (Lab 302)\n• 02:30 PM - 03:30 PM: Web Technology (Room 204)\n• 03:45 PM - 04:30 PM: Student Project Evaluation",
+                btnText = "📅 Request Room Swap / Leave"
+            ),
+            ModuleConfig(
+                title = "Student Directory",
+                subtitle = "Browse GTU 620 roster",
+                tag = "116 Records",
+                iconRes = R.drawable.ic_person,
+                accentColorRes = R.color.accent_sky,
+                tagColorRes = R.color.accent_sky_light,
+                description = "Search student profiles across all 10 engineering disciplines at Government Polytechnic, Rajkot.",
+                highlightHeader = "Roster Directory Access",
+                highlightBody = "• Active Students: 116 verified profiles\n• Quick search by 12-digit Enrollment or Student Name\n• View past semester academic results & contact info",
+                btnText = "👥 Browse Student Directory",
+                customAction = { showStudentDirectorySheet() }
+            ),
+            ModuleConfig(
+                title = "Syllabus Tracker",
+                subtitle = "Track semester curriculum",
+                tag = "5 Subjects",
+                iconRes = R.drawable.ic_library,
+                accentColorRes = R.color.accent_amber,
+                tagColorRes = R.color.accent_amber_light,
+                description = "Monitor GTU Diploma IT Semester 5 syllabus completion milestones, unit weights, exam schemes, and practical lists.",
+                highlightHeader = "Active GTU Curriculum",
+                highlightBody = "• AI with Prompt Engineering (DI05016011) — 4 Credits\n• AI Product Design (DI05016021) — 4 Credits\n• Cloud & Data Center Tech (DI05016031) — 4 Credits\n• Structured Programming with C (DI05016061) — 4 Credits\n• Emotional Intelligence & Digital Wellbeing (DI05016081) — 3 Credits",
+                btnText = "📊 Inspect Subject Syllabus",
+                customAction = { showSyllabusDirectorySheet() }
+            ),
+            ModuleConfig(
+                title = "Internal Marks",
+                subtitle = "Mid-sem & termwork grades",
+                tag = "Entry Open",
+                iconRes = R.drawable.ic_helpdesk,
+                accentColorRes = R.color.accent_violet,
+                tagColorRes = R.color.accent_violet,
+                description = "Submit continuous evaluation marks, lab record grades, and mid-semester theory examination scores.",
+                highlightHeader = "Evaluation Deadlines",
+                highlightBody = "• Mid-Semester Component: 30 Marks\n• Termwork / Practical File: 25 Marks\n• Portal submission deadline: 25th October 2026",
+                btnText = "📝 Enter Student Marks"
+            ),
+            ModuleConfig(
+                title = "Faculty Notices",
+                subtitle = "Staff memos & meeting dates",
+                tag = "3 Memos",
+                iconRes = R.drawable.ic_bell,
+                accentColorRes = R.color.accent_rose,
+                tagColorRes = R.color.accent_rose_light,
+                description = "Departmental staff memos, HOD review meetings, and GTU exam duty notifications.",
+                highlightHeader = "Staff Bulletin",
+                highlightBody = "• Department Meeting: Thursday 4:00 PM at Seminar Hall\n• Submission of Mid-Sem Question Papers by Friday\n• GTU External Examiner duty list announced",
+                btnText = "📑 View Department Minutes"
+            ),
+            ModuleConfig(
+                title = "HOD Lab Console",
+                subtitle = "Lab systems & software setup",
+                tag = "IT Dept",
+                iconRes = R.drawable.ic_admin,
+                accentColorRes = R.color.accent_teal,
+                tagColorRes = R.color.accent_teal_light,
+                description = "Manage computer lab hardware, software license deployments, and system maintenance logs.",
+                highlightHeader = "Lab Infrastructure",
+                highlightBody = "• Lab 301: 45 Systems (All Active)\n• Lab 302: 60 Systems (5 Network Ports Serviced)\n• Server Room: UPS Battery backup optimal",
+                btnText = "⚙️ Configure Lab Resources"
+>>>>>>> b327334c9bb5833741aeca543349dff403eb22d4
             )
         )
 
@@ -294,14 +398,14 @@ class HomeFragment : Fragment() {
             ),
             ModuleConfig(
                 title = "Canteen Control",
-                subtitle = "Toggle rush & update menu",
+                subtitle = "Menu & counter operations",
                 tag = "🟢 Online",
                 iconRes = R.drawable.ic_canteen,
                 accentColorRes = R.color.accent_amber,
                 tagColorRes = R.color.accent_amber_light,
-                description = "Master management panel for campus food court: open/close counters, edit prices, and monitor token queues.",
+                description = "Master management panel for campus food court: open/close counters, edit prices, and manage live menu.",
                 highlightHeader = "Live Canteen Operations",
-                highlightBody = "• Main Counter Status: [OPEN]\n• Orders Completed Today: 142 Tokens\n• Current Wait Time: 4 minutes (Low Rush)\n• Pre-order Token System: [Active]",
+                highlightBody = "• Main Counter Status: [OPEN]\n• Serving Status: Active & Operational\n• Current Wait Time: 2-4 minutes (Low Rush)\n• Live Menu Updates: [Synced]",
                 btnText = "🍽️ Open Canteen Master Control",
                 customAction = { showAdminCanteenControlSheet() }
             ),
@@ -478,125 +582,6 @@ class HomeFragment : Fragment() {
         // Initialize with Student Role
         updateRoleUI(UserRole.STUDENT)
 
-        // ==================== COMPLETE WORKING SEARCH BAR ====================
-        val layoutInlineSearchResults = view.findViewById<LinearLayout>(R.id.layoutInlineSearchResults)
-        val tvInlineSearchCount = view.findViewById<TextView>(R.id.tvInlineSearchCount)
-        val btnViewFullSearchResults = view.findViewById<TextView>(R.id.btnViewFullSearchResults)
-        val layoutInlineResultsList = view.findViewById<LinearLayout>(R.id.layoutInlineResultsList)
-
-        fun updateInlineSearchResults(query: String) {
-            val cleanQuery = query.trim()
-            if (cleanQuery.isEmpty()) {
-                layoutInlineSearchResults.visibility = View.GONE
-                layoutInlineResultsList.removeAllViews()
-                return
-            }
-
-            val results = CampusSearchManager.search(cleanQuery)
-            if (results.isEmpty()) {
-                layoutInlineSearchResults.visibility = View.VISIBLE
-                tvInlineSearchCount.text = "No matches for '$cleanQuery'"
-                layoutInlineResultsList.removeAllViews()
-
-                val emptyView = TextView(requireContext()).apply {
-                    text = "Try searching: 'exam', 'canteen', 'library', 'lab', 'hostel'"
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted))
-                    textSize = 12f
-                    setPadding(8, 8, 8, 8)
-                }
-                layoutInlineResultsList.addView(emptyView)
-            } else {
-                layoutInlineSearchResults.visibility = View.VISIBLE
-                tvInlineSearchCount.text = "${results.size} match${if (results.size > 1) "es" else ""} found"
-                layoutInlineResultsList.removeAllViews()
-
-                // Show top 4 items directly inline
-                val displayResults = results.take(4)
-                for (item in displayResults) {
-                    val itemView = layoutInflater.inflate(R.layout.item_search_result, layoutInlineResultsList, false)
-                    val ivSearchIcon = itemView.findViewById<ImageView>(R.id.ivSearchIcon)
-                    val tvSearchItemTitle = itemView.findViewById<TextView>(R.id.tvSearchItemTitle)
-                    val tvSearchItemSubtitle = itemView.findViewById<TextView>(R.id.tvSearchItemSubtitle)
-                    val tvSearchItemTag = itemView.findViewById<TextView>(R.id.tvSearchItemTag)
-
-                    tvSearchItemTitle.text = item.title
-                    tvSearchItemSubtitle.text = item.subtitle
-                    tvSearchItemTag.text = item.tag
-
-                    val accent = ContextCompat.getColor(requireContext(), item.accentColorRes)
-                    ivSearchIcon.setImageResource(item.iconRes)
-                    ivSearchIcon.imageTintList = ColorStateList.valueOf(accent)
-                    tvSearchItemTag.setTextColor(accent)
-
-                    itemView.setOnClickListener {
-                        if (item.category == CampusSearchManager.Category.SYLLABUS) {
-                            val subj = CampusSearchManager.getSyllabusByCode(item.tag)
-                            if (subj != null) {
-                                showSubjectSyllabusDetailSheet(subj)
-                                return@setOnClickListener
-                            }
-                        }
-                        showModuleBottomSheet(
-                            title = item.title,
-                            subtitle = item.subtitle,
-                            tag = item.tag,
-                            iconRes = item.iconRes,
-                            accentColorRes = item.accentColorRes,
-                            description = item.detailsHeader,
-                            highlightHeader = "Detailed Information",
-                            highlightBody = item.detailsBody,
-                            btnText = item.actionText
-                        )
-                    }
-                    layoutInlineResultsList.addView(itemView)
-                }
-            }
-        }
-
-        etCampusSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s?.toString() ?: ""
-                btnSearchClear.visibility = if (query.trim().isNotEmpty()) View.VISIBLE else View.GONE
-                updateInlineSearchResults(query)
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        btnSearchClear.setOnClickListener {
-            etCampusSearch.setText("")
-            btnSearchClear.visibility = View.GONE
-            layoutInlineSearchResults.visibility = View.GONE
-            layoutInlineResultsList.removeAllViews()
-        }
-
-        btnViewFullSearchResults.setOnClickListener {
-            val query = etCampusSearch.text.toString().trim()
-            openCampusSearchBottomSheet(query)
-        }
-
-        etCampusSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                val query = etCampusSearch.text.toString().trim()
-                openCampusSearchBottomSheet(query)
-                true
-            } else {
-                false
-            }
-        }
-
-        // Search filter button opens category-oriented search bottom sheet
-        btnSearchFilter.setOnClickListener {
-            val query = etCampusSearch.text.toString().trim()
-            openCampusSearchBottomSheet(query)
-        }
-
-        // Tapping the search bar container opens search sheet
-        view.findViewById<View>(R.id.searchBar).setOnClickListener {
-            val query = etCampusSearch.text.toString().trim()
-            openCampusSearchBottomSheet(query)
-        }
-
         // Hero Card Click
         heroCard.setOnClickListener {
             when (currentRole) {
@@ -755,6 +740,14 @@ class HomeFragment : Fragment() {
                                 showSubjectSyllabusDetailSheet(subj)
                                 return@setOnClickListener
                             }
+                        }
+                        if (item.category == CampusSearchManager.Category.TIMETABLE && (item.id.startsWith("time_master") || item.title.contains("Master Time Table", ignoreCase = true))) {
+                            showTimeTableSheet()
+                            return@setOnClickListener
+                        }
+                        if (item.category == CampusSearchManager.Category.CANTEEN) {
+                            showCanteenLiveMenuSheet()
+                            return@setOnClickListener
                         }
                         showModuleBottomSheet(
                             title = item.title,
@@ -1162,7 +1155,7 @@ class HomeFragment : Fragment() {
         }
 
         sheetHighlightBody.text = bodyBuilder.toString()
-        sheetPrimaryBtn.text = "📄 Open & Download Syllabus PDF"
+        sheetPrimaryBtn.text = "📄 Open Official GTU Syllabus PDF"
 
         sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
         sheetPrimaryBtn.setOnClickListener {
@@ -1178,6 +1171,47 @@ class HomeFragment : Fragment() {
     private fun showTimeTableSheet() {
         val bottomSheet = BottomSheetDialog(requireContext())
         bottomSheet.expandAndEnableScrolling()
+        val sheetView = layoutInflater.inflate(R.layout.layout_bottom_sheet_timetable, null)
+
+        val btnClose = sheetView.findViewById<ImageView>(R.id.timetableSheetBtnClose)
+        val btnOpenPdf = sheetView.findViewById<MaterialButton>(R.id.btnOpenTimetablePdf)
+        val btnSharePdf = sheetView.findViewById<MaterialButton>(R.id.btnShareTimetablePdf)
+
+        btnClose.setOnClickListener { bottomSheet.dismiss() }
+
+
+        btnOpenPdf.setOnClickListener {
+            PdfGeneratorUtil.openOrDownloadTimeTablePdf(requireContext())
+        }
+
+        btnSharePdf.setOnClickListener {
+            PdfGeneratorUtil.shareTimeTablePdf(requireContext())
+        }
+
+        bottomSheet.setContentView(sheetView)
+        bottomSheet.show()
+    }
+
+    private fun showFullscreenTimetableDialog() {
+        val dialog = Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setContentView(R.layout.dialog_timetable_fullscreen)
+
+        val btnClose = dialog.findViewById<ImageView>(R.id.btnViewerClose)
+        val btnShare = dialog.findViewById<ImageView>(R.id.btnViewerShare)
+        val btnOpenPdf = dialog.findViewById<MaterialButton>(R.id.btnViewerOpenPdf)
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        btnShare.setOnClickListener { PdfGeneratorUtil.shareTimeTablePdf(requireContext()) }
+        btnOpenPdf.setOnClickListener { PdfGeneratorUtil.openOrDownloadTimeTablePdf(requireContext()) }
+
+        dialog.show()
+    }
+
+    // ==================== ADMIN TOOLS ====================
+
+    private fun showCanteenLiveMenuSheet() {
+        val bottomSheet = BottomSheetDialog(requireContext())
+        bottomSheet.expandAndEnableScrolling()
         val sheetView = layoutInflater.inflate(R.layout.layout_bottom_sheet_module, null)
 
         val sheetIcon = sheetView.findViewById<ImageView>(R.id.sheetIcon)
@@ -1190,74 +1224,52 @@ class HomeFragment : Fragment() {
         val sheetHighlightBody = sheetView.findViewById<TextView>(R.id.sheetHighlightBody)
         val sheetPrimaryBtn = sheetView.findViewById<MaterialButton>(R.id.sheetPrimaryBtn)
 
-        val accentColor = ContextCompat.getColor(requireContext(), R.color.splash_accent_primary)
-        sheetIcon.setImageResource(R.drawable.ic_timetable)
+        val accentColor = ContextCompat.getColor(requireContext(), R.color.accent_amber)
+        sheetIcon.setImageResource(R.drawable.ic_canteen)
         sheetIcon.imageTintList = ColorStateList.valueOf(accentColor)
         sheetTag.setTextColor(accentColor)
         sheetPrimaryBtn.backgroundTintList = ColorStateList.valueOf(accentColor)
 
-        sheetTitle.text = "GP Rajkot IT Master Time Table"
-        sheetSubtitle.text = "Term Odd 2026-27 • Sem 5-A, 5-B, 5-C • WEF: 29/06/2026"
-        sheetTag.text = "30 HRS/WK"
+        sheetTitle.text = "Canteen Hub"
+        sheetSubtitle.text = "Today's Live Menu • GP Rajkot Food Court"
+        sheetTag.text = "🟢 OPEN (LOW WAIT)"
 
-        sheetDescription.text = "Government Polytechnic Rajkot Information Technology Department Official Master Time Table for Semester 5. Includes classroom, lab allocations, and faculty assignments."
+        sheetDescription.text = "Real-time cafeteria menu and counter status for Government Polytechnic Rajkot students and staff."
 
-        sheetHighlightHeader.text = "Division & Faculty Allocation Schedule"
+        sheetHighlightHeader.text = "🍽️ Today's Fresh Menu & Prices"
 
-        val scheduleText = buildString {
-            append("📅 WEEKLY SCHEDULE SUMMARY (11:00 AM - 06:00 PM):\n\n")
-            append("🔹 MONDAY:\n")
-            append("  • Sem 5-A (Rm 101): AIPD (DMT), CDCT (SRT), AIWPE Lab (APL-2)\n")
-            append("  • Sem 5-B (Rm 102): CDCT (SVN), AIWPE (HKV), SPC (MTV/HKV), Min Project\n")
-            append("  • Sem 5-C (Rm 103): AIWPE (HKV), CDCT (SVN), AIPD Lab (APL-2), EIDW (T)\n\n")
+        val menuText = buildString {
+            append("🍛 LUNCH & MEALS (11:30 AM - 02:30 PM):\n")
+            append("  • Deluxe Gujarati Thali (4 Roti, Sabji, Dal, Rice, Salad) — ₹80\n")
+            append("  • Chole Bhature Special Platter (2 Bhature, Chole, Pickle) — ₹60\n")
+            append("  • Dal Fry & Jeera Rice Bowl — ₹50\n\n")
 
-            append("🔹 TUESDAY:\n")
-            append("  • Sem 5-A (Rm 101): SPC Lab (APL-1), SPC (MTV/SBP), Min Project\n")
-            append("  • Sem 5-B (Rm 102): AIPD Lab (APL-2), CDCT Lab (APL-2), EIDW (BPL-1)\n")
-            append("  • Sem 5-C (Rm 103): AIWPE (SJS), SPC (SBP), AIPD (GJB)\n\n")
+            append("🥪 SNACKS & FAST FOOD (All Day Available):\n")
+            append("  • Samosa & Masala Chai Combo (2 Pcs Hot) — ₹30\n")
+            append("  • Veg Grilled Cheese Sandwich — ₹40\n")
+            append("  • Fresh Aloo Masala Puff / Cheese Puff — ₹20 / ₹30\n")
+            append("  • Maskabun / Toast Butter — ₹25\n\n")
 
-            append("🔹 WEDNESDAY:\n")
-            append("  • Sem 5-A (Rm 101): AIPD Lab (APL-1), AIWPE (SJS), Min Project (107)\n")
-            append("  • Sem 5-B (Rm 102): CDCT (SRT), SPC Lab (APL-2), EIDW Lab (BPL-1)\n")
-            append("  • Sem 5-C (Rm 103): AIWPE Lab (BPL-1), AIPD (DMT), EIDW Lab\n\n")
+            append("☕ BEVERAGES & REFRESHMENTS:\n")
+            append("  • Special Kadak Masala Chai — ₹10\n")
+            append("  • Thick Cold Coffee — ₹35\n")
+            append("  • Fresh Chilled Buttermilk (Chhas) — ₹15\n")
+            append("  • Packaged Fruit Juice / Lemon Soda — ₹20\n\n")
 
-            append("🔹 THURSDAY:\n")
-            append("  • Sem 5-A (Rm 101): SPC (HKV), AIWPE (HKV), CDCT (SVN), AIPD (GJB)\n")
-            append("  • Sem 5-B (Rm 102): AIPD (GJB), SPC (SBP), AIWPE (SJS), Min Project\n")
-            append("  • Sem 5-C (Rm 103): CDCT Lab (APL-2), SPC Lab (APL-1), Min Project\n\n")
-
-            append("🔹 FRIDAY:\n")
-            append("  • Sem 5-A (Rm 101): EIDW Lab (APL-1), CDCT Lab (APL-2)\n")
-            append("  • Sem 5-B (Rm 102): AIPD (DMT), AIWPE Lab (BPL-1), EIDW (T)\n")
-            append("  • Sem 5-C (Rm 103): CDCT (SRT), SPC (MTV/HKV), Min Project (BPL-1)\n\n")
-
-            append("🔹 SATURDAY:\n")
-            append("  • Sem 5-A: Min Project (APL-2) | Sem 5-B: Min Project (APL-1) | Sem 5-C: Min Project (BPL-1)\n\n")
-
-            append("🏛️ LAB LOCATIONS:\n")
-            append("  • APL-1 & APL-2: Advanced Programming Lab\n")
-            append("  • BPL-1: Basic Programming Lab\n\n")
-
-            append("👨‍🏫 FACULTY IN CHARGE:\n")
-            append("  • DMT: Prof. D. M. Tank | SVN: Prof. S. V. Nimavat\n")
-            append("  • HKV: Prof. H. K. Vora | SRT: Prof. S. R. Tank\n")
-            append("  • MTV: Prof. M. T. Vaghasia | SBP: Prof. S. B. Parmar\n")
-            append("  • GJB: Prof. G. J. Bhensdadia | SJS: Prof. S. J. Sangani | AOB: Prof. A. O. Bhatt")
+            append("📍 COUNTER STATUS & TIMINGS:\n")
+            append("  • Operational Hours: 08:30 AM - 06:00 PM (Mon-Sat)\n")
+            append("  • Current Rush Index: 🟢 Low Rush (2-4 min wait)\n")
+            append("  • Main Meal Counter & Snack Express Counter Active")
         }
 
-        sheetHighlightBody.text = scheduleText
-        sheetPrimaryBtn.text = "📄 Open & Download Time Table PDF"
+        sheetHighlightBody.text = menuText
+        sheetPrimaryBtn.visibility = View.GONE
 
         sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
-        sheetPrimaryBtn.setOnClickListener {
-            PdfGeneratorUtil.openOrDownloadTimeTablePdf(requireContext())
-        }
 
         bottomSheet.setContentView(sheetView)
         bottomSheet.show()
     }
-
-    // ==================== ADMIN TOOLS ====================
 
     private fun showAdminBroadcastSheet() {
         val bottomSheet = BottomSheetDialog(requireContext())
@@ -1320,11 +1332,11 @@ class HomeFragment : Fragment() {
         sheetPrimaryBtn.backgroundTintList = ColorStateList.valueOf(accentColor)
 
         sheetTitle.text = "Canteen Master Control"
-        sheetSubtitle.text = "Food Court Counters & Digital Token Engine"
+        sheetSubtitle.text = "Food Court Counters & Live Menu System"
         sheetTag.text = "🟢 COUNTERS OPEN"
-        sheetDescription.text = "Supervise campus food court rush, manage daily items, toggle counter status, and audit daily token transactions."
+        sheetDescription.text = "Supervise campus food court rush, manage daily items, toggle counter status, and update live menu prices."
         sheetHighlightHeader.text = "Counter Management Summary"
-        sheetHighlightBody.text = "• Lunch Thali Counter: [Active - 4 min wait]\n• Snacks & Chai Counter: [Active - No wait]\n• Pre-order Token Revenue Today: ₹11,360\n• Next Scheduled Restock: 03:00 PM"
+        sheetHighlightBody.text = "• Lunch Thali Counter: [Active - 4 min wait]\n• Snacks & Chai Counter: [Active - No wait]\n• Live Menu Status: Active & Synced\n• Next Scheduled Restock: 03:00 PM"
         sheetPrimaryBtn.text = "🔄 Toggle Counter Status / Update Menu"
 
         sheetBtnClose.setOnClickListener { bottomSheet.dismiss() }
