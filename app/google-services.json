@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1026347768829",
+    "project_id": "campushelper-14cbb",
+    "storage_bucket": "campushelper-14cbb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026347768829:android:adeb44a36580e3ea5c5794",
+        "android_client_info": {
+          "package_name": "com.devang.campushelper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUI6gKg_-XNYdenNBq6M_8KaDSwc5HTOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

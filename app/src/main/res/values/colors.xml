@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background Gradient Colors -->
+    <color name="splash_bg_start">#090D16</color>  <!-- Deepest Midnight -->
+    <color name="splash_bg_end">#121829</color>    <!-- Dark Navy Slate -->
+    <color name="home_bg_start">#080C14</color>
+    <color name="home_bg_end">#0F172A</color>
+
+    <!-- Accent Colors -->
+    <color name="splash_accent_primary">#6366F1</color> <!-- Indigo 500 -->
+    <color name="splash_accent_glow">#818CF8</color>    <!-- Indigo 400 -->
+    <color name="accent_violet">#A855F7</color>         <!-- Purple 500 -->
+    <color name="accent_cyan">#06B6D4</color>           <!-- Cyan 500 -->
+    <color name="accent_cyan_light">#22D3EE</color>
+    <color name="accent_emerald">#10B981</color>        <!-- Emerald 500 -->
+    <color name="accent_emerald_light">#34D399</color>
+    <color name="accent_amber">#F59E0B</color>          <!-- Amber 500 -->
+    <color name="accent_amber_light">#FBBF24</color>
+    <color name="accent_rose">#F43F5E</color>           <!-- Rose 500 -->
+    <color name="accent_rose_light">#FB7185</color>
+    <color name="accent_sky">#0EA5E9</color>            <!-- Sky 500 -->
+    <color name="accent_sky_light">#38BDF8</color>
+    <color name="accent_teal">#14B8A6</color>           <!-- Teal 500 -->
+    <color name="accent_teal_light">#2DD4BF</color>
+    <color name="accent_coral">#EF4444</color>          <!-- Red 500 -->
+
+    <!-- Text Colors -->
+    <color name="splash_text_primary">#FFFFFF</color>
+    <color name="splash_text_secondary">#94A3B8</color> <!-- Slate 400 -->
+    <color name="text_muted">#64748B</color>           <!-- Slate 500 -->
+    <color name="text_bright_white">#F8FAFC</color>
+
+    <!-- Card Background & Glassmorphic Surfaces -->
+    <color name="splash_card_bg">#131D31</color>       <!-- Slate 850 -->
+    <color name="splash_card_border">#2A384F</color>   <!-- Slate 700 -->
+    <color name="glass_card_bg">#182338</color>        <!-- Translucent Dark Card -->
+    <color name="glass_card_bg_elevated">#1E2C46</color>
+    <color name="glass_card_border">#2E3E5B</color>
+    <color name="glass_card_border_highlight">#43557A</color>
+
+    <!-- Module Icon Circle Backgrounds -->
+    <color name="icon_bg_notice">#152C3E</color>
+    <color name="icon_bg_timetable">#221F45</color>
+    <color name="icon_bg_canteen">#362B14</color>
+    <color name="icon_bg_library">#133327</color>
+    <color name="icon_bg_lost_found">#381825</color>
+    <color name="icon_bg_helpdesk">#132B3C</color>
+    <color name="icon_bg_alerts">#371818</color>
+    <color name="icon_bg_admin">#13322E</color>
+
+    <!-- Input Field Colors -->
+    <color name="input_bg">#111A2B</color>             <!-- Deep Input Slate -->
+    <color name="input_stroke_default">#253347</color>
+    <color name="input_stroke_focus">#6366F1</color>
+    <color name="input_hint">#64748B</color>
+
+    <!-- Button & Navigation Colors -->
+    <color name="btn_gradient_start">#6366F1</color>
+    <color name="btn_gradient_end">#8B5CF6</color>
+    <color name="social_btn_bg">#182338</color>
+    <color name="social_btn_border">#334155</color>
+    <color name="divider_color">#1F2B3E</color>
+
+    <!-- Floating Navigation Bar -->
+    <color name="nav_bar_bg">#162035</color>
+    <color name="nav_bar_border">#2D3C56</color>
+    <color name="nav_item_active">#6366F1</color>
+    <color name="nav_item_inactive">#8594AC</color>
+    <color name="nav_item_active_bg">#232A4C</color>
+
+    <!-- Role Switcher Colors -->
+    <color name="role_container_bg">#101726</color>
+    <color name="role_active_bg">#6366F1</color>
+    <color name="role_active_text">#FFFFFF</color>
+    <color name="role_inactive_text">#8A9BB5</color>
+
+    <!-- Hero Card Colors -->
+    <color name="hero_bg_start">#312E81</color>        <!-- Indigo 900 -->
+    <color name="hero_bg_end">#4C1D95</color>          <!-- Violet 900 -->
+    <color name="hero_border">#6366F1</color>
+    <color name="hero_glow">#4F46E5</color>
+
+    <!-- Status Badges & Chips -->
+    <color name="chip_bg">#1A253A</color>
+    <color name="chip_border">#2F3F5C</color>
+    <color name="chip_green_bg">#0F382A</color>
+    <color name="chip_green_border">#1A5C44</color>
+    <color name="chip_amber_bg">#3E2D12</color>
+    <color name="chip_amber_border">#664918</color>
+    <color name="chip_rose_bg">#3E1622</color>
+    <color name="chip_rose_border">#662034</color>
+    <color name="chip_cyan_bg">#103544</color>
+    <color name="chip_cyan_border">#1B536B</color>
+
+    <!-- Status Dot -->
+    <color name="status_online">#10B981</color>
+    <color name="status_busy">#F59E0B</color>
+</resources>

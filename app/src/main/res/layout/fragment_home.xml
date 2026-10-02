@@ -1,0 +1,1526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/bg_splash_gradient">
+
+    <!-- Top-Right Ambient Glow -->
+    <View
+        android:id="@+id/topGlow"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="-100dp"
+        android:layout_marginEnd="-100dp"
+        android:background="@drawable/bg_glow_circle"
+        android:alpha="0.22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Bottom-Left Ambient Glow -->
+    <View
+        android:id="@+id/bottomGlow"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_marginStart="-90dp"
+        android:layout_marginBottom="-90dp"
+        android:background="@drawable/bg_glow_circle_bottom"
+        android:alpha="0.18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Main Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:paddingBottom="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="28dp">
+
+            <!-- 1. Header Profile & Notification Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Avatar with Online Green Dot -->
+                <FrameLayout
+                    android:id="@+id/btnProfileAvatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_logo_container">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="User Avatar"
+                        android:src="@drawable/ic_person"
+                        app:tint="@color/splash_accent_glow" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/bg_badge_pill"
+                        android:backgroundTint="@color/status_online" />
+                </FrameLayout>
+
+                <!-- Greeting & Department Info -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvGreeting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Welcome, Devang"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/tvDepartment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="GP Rajkot • IT Department"
+                        android:textColor="@color/splash_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Notification Bell with Unread Badge -->
+                <FrameLayout
+                    android:id="@+id/btnNotifications"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Notifications"
+                        android:src="@drawable/ic_bell"
+                        app:tint="@color/splash_text_primary" />
+
+                    <TextView
+                        android:id="@+id/tvNotificationBadge"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/bg_badge_pill"
+                        android:backgroundTint="@color/accent_coral"
+                        android:fontFamily="sans-serif-bold"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp" />
+                </FrameLayout>
+
+                <!-- Logout Icon -->
+                <FrameLayout
+                    android:id="@+id/btnLogout"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/bg_glass_card"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Logout"
+                        android:src="@drawable/ic_arrow_forward"
+                        android:rotation="180"
+                        app:tint="@color/text_muted" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- 2. Role Switcher Segment (Student / Faculty / Admin) -->
+            <LinearLayout
+                android:id="@+id/roleSwitcherContainer"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_role_container"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/btnRoleStudent"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_role_active"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:gravity="center"
+                    android:text="🎓 Student"
+                    android:textColor="@color/role_active_text"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btnRoleFaculty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_role_inactive"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="👨‍🏫 Faculty"
+                    android:textColor="@color/role_inactive_text"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btnRoleAdmin"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_role_inactive"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="🛡️ Admin"
+                    android:textColor="@color/role_inactive_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- 3. Universal Campus Search Bar -->
+            <LinearLayout
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_search_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Search"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/input_hint" />
+
+                <EditText
+                    android:id="@+id/etCampusSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="sans-serif"
+                    android:hint="Search notices, library, lost items..."
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="@color/splash_text_primary"
+                    android:textColorHint="@color/input_hint"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/btnSearchClear"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="Clear"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_close"
+                    android:visibility="gone"
+                    app:tint="@color/text_muted" />
+
+                <ImageView
+                    android:id="@+id/btnSearchFilter"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="Filter"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_filter"
+                    app:tint="@color/splash_accent_glow" />
+            </LinearLayout>
+
+            <!-- 3.1 Live Inline Search Results Dropdown -->
+            <LinearLayout
+                android:id="@+id/layoutInlineSearchResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_glass_card"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvInlineSearchCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Search Matches"
+                        android:textColor="@color/splash_accent_glow"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/btnViewFullSearchResults"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Explore All ↗"
+                        android:textColor="@color/splash_accent_primary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutInlineResultsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <!-- 4. Hero "Live Campus Pulse" Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/heroCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@null"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_hero_gradient"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <!-- Top Pulse Indicator Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvHeroBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge_pill"
+                            android:backgroundTint="#33FFFFFF"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.06"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="3dp"
+                            android:text="📡 LIVE PULSE"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvHeroCountdown"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="end"
+                            android:text="Starts in 18 mins"
+                            android:textColor="#C7D2FE"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Next Lecture Info -->
+                    <TextView
+                        android:id="@+id/tvHeroSubject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Data Structures &amp; Algorithms"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvHeroSchedule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="⏰ 11:00 AM - 12:00 PM • Lab 302 (Prof. Mehta)"
+                        android:textColor="#E0E7FF"
+                        android:textSize="13sp" />
+
+                    <!-- Live Mini Status Chips Row -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Canteen Status Chip -->
+                            <TextView
+                                android:id="@+id/chipCanteenStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_chip_status"
+                                android:backgroundTint="@color/chip_green_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="5dp"
+                                android:text="🟢 Canteen: Open (Low Wait)"
+                                android:textColor="@color/accent_emerald_light"
+                                android:textSize="11sp" />
+
+                            <!-- Library Status Chip -->
+                            <TextView
+                                android:id="@+id/chipLibraryStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_chip_status"
+                                android:backgroundTint="@color/chip_cyan_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="5dp"
+                                android:text="📚 Library: 38 Seats Free"
+                                android:textColor="@color/accent_cyan_light"
+                                android:textSize="11sp" />
+
+                            <!-- Notice Chip -->
+                            <TextView
+                                android:id="@+id/chipNoticeStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_chip_status"
+                                android:backgroundTint="@color/chip_amber_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="5dp"
+                                android:text="📢 3 New Circulars"
+                                android:textColor="@color/accent_amber_light"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 5. Section Header: Campus Modules -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvSectionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Campus Modules"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvRoleBadgeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_pill"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:text="Student Portal"
+                    android:textColor="@color/splash_accent_glow"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <!-- 6. 8-Module Grid (2 Columns) -->
+            <!-- Row 1: Notices & Timetable -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <!-- Module 1: Notices & Circulars -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardNotices"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_notice">
+
+                                <ImageView
+                                    android:id="@+id/ivModule1Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Notices"
+                                    android:src="@drawable/ic_notices"
+                                    app:tint="@color/accent_cyan" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule1Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_cyan_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="3 New"
+                                android:textColor="@color/accent_cyan_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule1Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Notices"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule1Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Official circulars &amp; exams"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Module 2: Timetable & Events -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardTimetable"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_timetable">
+
+                                <ImageView
+                                    android:id="@+id/ivModule2Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Timetable"
+                                    android:src="@drawable/ic_timetable"
+                                    app:tint="@color/splash_accent_glow" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule2Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="Today"
+                                android:textColor="@color/splash_accent_glow"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule2Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Timetable"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule2Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Schedules &amp; campus fests"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 2: Canteen & Library -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <!-- Module 3: Canteen Hub -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCanteen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_canteen">
+
+                                <ImageView
+                                    android:id="@+id/ivModule3Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Canteen"
+                                    android:src="@drawable/ic_canteen"
+                                    app:tint="@color/accent_amber" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule3Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_amber_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="🟢 Open"
+                                android:textColor="@color/accent_amber_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule3Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Canteen Hub"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule3Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Live menu &amp; token tokens"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Module 4: Digital Library -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLibrary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_library">
+
+                                <ImageView
+                                    android:id="@+id/ivModule4Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Library"
+                                    android:src="@drawable/ic_library"
+                                    app:tint="@color/accent_emerald" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule4Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_green_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="5k+ Books"
+                                android:textColor="@color/accent_emerald_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule4Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Digital Library"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule4Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Book search &amp; due tracker"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 3: Lost & Found & Grievance / Helpdesk -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <!-- Module 5: Lost & Found -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLostFound"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_lost_found">
+
+                                <ImageView
+                                    android:id="@+id/ivModule5Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Lost &amp; Found"
+                                    android:src="@drawable/ic_lost_found"
+                                    app:tint="@color/accent_rose" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule5Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_rose_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="4 Items"
+                                android:textColor="@color/accent_rose_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule5Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Lost &amp; Found"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule5Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Report, track &amp; claim"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Module 6: Helpdesk / Complaints -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardHelpdesk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_helpdesk">
+
+                                <ImageView
+                                    android:id="@+id/ivModule6Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Helpdesk"
+                                    android:src="@drawable/ic_helpdesk"
+                                    app:tint="@color/accent_sky" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule6Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_cyan_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="24/7"
+                                android:textColor="@color/accent_sky_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule6Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Helpdesk"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule6Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Complaints &amp; quick FAQs"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 4: Emergency Alerts & Admin / Faculty Tools -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <!-- Module 7: Emergency & Broadcast Alerts -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAlerts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_alerts">
+
+                                <ImageView
+                                    android:id="@+id/ivModule7Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Alerts"
+                                    android:src="@drawable/ic_bell"
+                                    app:tint="@color/accent_coral" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule7Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_rose_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="Instant"
+                                android:textColor="@color/accent_rose_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule7Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Campus Alerts"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule7Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Urgent notifications &amp; news"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Module 8: Admin & Faculty Portal -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAdmin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/glass_card_bg"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/glass_card_border"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/icon_bg_admin">
+
+                                <ImageView
+                                    android:id="@+id/ivModule8Icon"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Admin Console"
+                                    android:src="@drawable/ic_admin"
+                                    app:tint="@color/accent_teal" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:id="@+id/tvModule8Tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_badge_pill"
+                                android:backgroundTint="@color/chip_green_bg"
+                                android:fontFamily="sans-serif-bold"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="2dp"
+                                android:text="Staff"
+                                android:textColor="@color/accent_teal_light"
+                                android:textSize="10sp" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvModule8Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Staff Portal"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tvModule8Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Publish &amp; manage dept"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- 7. Urgent Circulars & Highlights Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Highlights"
+                    android:src="@drawable/ic_fire"
+                    app:tint="@color/accent_amber" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Urgent Circulars &amp; Updates"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/btnViewAllNotices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:padding="4dp"
+                    android:text="View All →"
+                    android:textColor="@color/splash_accent_glow"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Horizontal Circulars Cards -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Circular 1: Exam Timetable -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardCircular1"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="@color/glass_card_bg"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/glass_card_border"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_badge_pill"
+                                    android:backgroundTint="@color/chip_rose_bg"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="2dp"
+                                    android:text="EXAM CIRCULAR"
+                                    android:textColor="@color/accent_rose_light"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif"
+                                    android:gravity="end"
+                                    android:text="Today"
+                                    android:textColor="@color/text_muted"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="Mid-Semester Exam Schedule 2026 Released"
+                                android:textColor="@color/splash_text_primary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Exam begins from 10th Sept. Download syllabus."
+                                android:textColor="@color/splash_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Circular 2: TechFest Hackathon -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardCircular2"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="@color/glass_card_bg"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/glass_card_border"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_badge_pill"
+                                    android:backgroundTint="@color/chip_cyan_bg"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="2dp"
+                                    android:text="HACKATHON"
+                                    android:textColor="@color/accent_cyan_light"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="sans-serif"
+                                    android:gravity="end"
+                                    android:text="28 Aug"
+                                    android:textColor="@color/text_muted"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="State-Level Smart Gujarat Hackathon 2026"
+                                android:textColor="@color/splash_text_primary"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="sans-serif"
+                                android:text="Register teams of 4 members before Friday."
+                                android:textColor="@color/splash_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 8. Floating Island Bottom Navigation Dock -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomNavDock"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@null"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_bottom_nav_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <!-- Nav 1: Home (Active) -->
+            <LinearLayout
+                android:id="@+id/navTabHome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navIconHome"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="Home"
+                    android:src="@drawable/ic_nav_home"
+                    app:tint="@color/splash_accent_primary" />
+
+                <TextView
+                    android:id="@+id/navTextHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Home"
+                    android:textColor="@color/splash_accent_primary"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Nav 2: Notices -->
+            <LinearLayout
+                android:id="@+id/navTabNotices"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navIconNotices"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="Notices"
+                    android:src="@drawable/ic_nav_notices"
+                    app:tint="@color/nav_item_inactive" />
+
+                <TextView
+                    android:id="@+id/navTextNotices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Notices"
+                    android:textColor="@color/nav_item_inactive"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Nav 3: Canteen -->
+            <LinearLayout
+                android:id="@+id/navTabCanteen"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navIconCanteen"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="Canteen"
+                    android:src="@drawable/ic_nav_canteen"
+                    app:tint="@color/nav_item_inactive" />
+
+                <TextView
+                    android:id="@+id/navTextCanteen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Canteen"
+                    android:textColor="@color/nav_item_inactive"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Nav 4: Library -->
+            <LinearLayout
+                android:id="@+id/navTabLibrary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navIconLibrary"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="Library"
+                    android:src="@drawable/ic_nav_library"
+                    app:tint="@color/nav_item_inactive" />
+
+                <TextView
+                    android:id="@+id/navTextLibrary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Library"
+                    android:textColor="@color/nav_item_inactive"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Nav 5: Profile -->
+            <LinearLayout
+                android:id="@+id/navTabProfile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navIconProfile"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="Profile"
+                    android:src="@drawable/ic_nav_profile"
+                    app:tint="@color/nav_item_inactive" />
+
+                <TextView
+                    android:id="@+id/navTextProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Profile"
+                    android:textColor="@color/nav_item_inactive"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

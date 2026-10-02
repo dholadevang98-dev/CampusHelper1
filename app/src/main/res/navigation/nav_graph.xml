@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <!-- Splash Screen -->
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.devang.campushelper.SplashFragment"
+        android:label="Splash">
+
+        <!-- Splash → Login -->
+        <action
+            android:id="@+id/action_splashFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+
+        <!-- Splash → Home (Direct One-Time Login) -->
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <!-- Login Screen -->
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.devang.campushelper.FirstFragment"
+        android:label="Login">
+
+        <!-- Login → Home -->
+        <action
+            android:id="@+id/action_FirstFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/FirstFragment"
+            app:popUpToInclusive="true" />
+
+        <!-- Login → Sign Up -->
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+
+    </fragment>
+
+    <!-- Sign Up Screen -->
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.devang.campushelper.SecondFragment"
+        android:label="Sign Up">
+
+        <!-- Sign Up → Login -->
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:popUpTo="@id/SecondFragment"
+            app:popUpToInclusive="true" />
+
+        <!-- Sign Up → Home (Direct Login after Sign Up) -->
+        <action
+            android:id="@+id/action_SecondFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/SecondFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <!-- Home Screen -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.devang.campushelper.HomeFragment"
+        android:label="Home">
+
+        <!-- Logout → Login -->
+        <action
+            android:id="@+id/action_homeFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+</navigation>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="26dp">
+
+    <!-- Drag Handle -->
+    <View
+        android:layout_width="44dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_chip_status" />
+
+    <!-- Glowing Avatar Container -->
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_badge_pill"
+        android:backgroundTint="#26EF4444">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:contentDescription="Logout Avatar"
+            android:src="@drawable/ic_person"
+            app:tint="@color/accent_coral" />
+    </FrameLayout>
+
+    <!-- Dialog Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Log Out from Campus Helper?"
+        android:textColor="@color/splash_text_primary"
+        android:textSize="20sp" />
+
+    <!-- User Details Capsule -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_chip_status"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="6dp">
+
+        <TextView
+            android:id="@+id/tvLogoutUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text="•"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvLogoutUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="devang@campus.ac.in"
+            android:textColor="@color/splash_text_secondary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Message Description -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="You will be signed out of your current session on this device. You can log back in anytime with your campus credentials."
+        android:textColor="@color/splash_text_secondary"
+        android:textSize="13sp" />
+
+    <!-- Action Buttons Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <!-- Cancel / Stay Logged In Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelLogout"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-bold"
+            android:text="Stay Logged In"
+            android:textAllCaps="false"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="14sp"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/splash_card_border"
+            app:strokeWidth="1.2dp" />
+
+        <!-- Confirm Log Out Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmLogout"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-bold"
+            android:text="Log Out"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:backgroundTint="@color/accent_coral"
+            app:cornerRadius="14dp" />
+    </LinearLayout>
+
+</LinearLayout>
