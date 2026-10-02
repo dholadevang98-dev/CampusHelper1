@@ -20,10 +20,93 @@ object PdfGeneratorUtil {
     private const val PAGE_HEIGHT = 842 // A4 standard height in points (72 dpi)
     private const val MARGIN = 40f
 
+    fun getSyllabusAssetFileName(subjectCode: String): String? {
+        return when (subjectCode) {
+            "DI05016011" -> "GTU_Syllabus_DI05016011_Artificial_Intelligence_with_Prompt_Engineering.pdf"
+            "DI05016021" -> "GTU_Syllabus_DI05016021_AI_Product_Design.pdf"
+            "DI05016031" -> "GTU_Syllabus_DI05016031_Cloud_and_Data_Center_Technology.pdf"
+            "DI05016061" -> "GTU_Syllabus_DI05016061_Structured_Programming_with_C.pdf"
+            "DI05016081" -> "GTU_Syllabus_DI05016081_Emotional_Intelligence_Digital_Wellbeing.pdf"
+            else -> null
+        }
+    }
+
     /**
-     * Generates and opens a PDF for any GTU Syllabus Subject
+     * Retrieves or extracts the authentic GTU Syllabus PDF for the given subject
+     */
+    fun getSyllabusPdfFile(context: Context, subject: CampusSearchManager.SyllabusSubject): File {
+        val assetFileName = getSyllabusAssetFileName(subject.code)
+        val targetFileName = assetFileName ?: "GTU_Syllabus_${subject.code}_${subject.name.replace(" ", "_")}.pdf"
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), targetFileName)
+
+        var extractedFromAssets = false
+        if (assetFileName != null) {
+            try {
+                context.assets.open(assetFileName).use { input ->
+                    FileOutputStream(file).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+                extractedFromAssets = true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (!extractedFromAssets || !file.exists() || file.length() == 0L) {
+            generateFallbackSyllabusPdf(subject, file)
+        }
+        return file
+    }
+
+    /**
+     * Opens or downloads the authentic GTU Syllabus PDF for the given subject
      */
     fun openOrDownloadSyllabusPdf(context: Context, subject: CampusSearchManager.SyllabusSubject) {
+        try {
+            val file = getSyllabusPdfFile(context, subject)
+
+            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val viewIntent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(fileUri, "application/pdf")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+
+            val chooser = Intent.createChooser(viewIntent, "Open ${subject.name} Syllabus PDF")
+            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(chooser)
+            Toast.makeText(context, "Official GTU Syllabus PDF opened: ${file.name} 📥", Toast.LENGTH_LONG).show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Could not open Syllabus PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Shares the authentic GTU Syllabus PDF for the given subject
+     */
+    fun shareSyllabusPdf(context: Context, subject: CampusSearchManager.SyllabusSubject) {
+        try {
+            val file = getSyllabusPdfFile(context, subject)
+            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, fileUri)
+                putExtra(Intent.EXTRA_SUBJECT, "GTU Syllabus: ${subject.name} (${subject.code})")
+                putExtra(Intent.EXTRA_TEXT, "Official GTU Diploma IT Sem 5 Syllabus for ${subject.name} (${subject.code}) w.e.f. 2026-27.")
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+            val chooser = Intent.createChooser(shareIntent, "Share Syllabus PDF")
+            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(chooser)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Could not share Syllabus PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun generateFallbackSyllabusPdf(subject: CampusSearchManager.SyllabusSubject, destinationFile: File) {
         try {
             val pdfDocument = PdfDocument()
             val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -209,37 +292,90 @@ object PdfGeneratorUtil {
 
             pdfDocument.finishPage(page)
 
-            // Save PDF to App External Storage and Downloads
-            val safeFileName = "GTU_Syllabus_${subject.code}_${subject.name.replace(" ", "_")}.pdf"
-            val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), safeFileName)
-            val outputStream = FileOutputStream(file)
+            val outputStream = FileOutputStream(destinationFile)
             pdfDocument.writeTo(outputStream)
             outputStream.flush()
             outputStream.close()
             pdfDocument.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
-            // Open via Intent with FileProvider
+    const val TIMETABLE_FILE_NAME = "GP_Rajkot_IT_Master_TimeTable_2026-27.pdf"
+
+    /**
+     * Retrieves or extracts the authentic GP Rajkot IT Department Master Time Table PDF
+     */
+    fun getTimeTablePdfFile(context: Context): File {
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), TIMETABLE_FILE_NAME)
+        var extractedFromAssets = false
+        try {
+            context.assets.open(TIMETABLE_FILE_NAME).use { input ->
+                FileOutputStream(file).use { output ->
+                    input.copyTo(output)
+                }
+            }
+            extractedFromAssets = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        if (!extractedFromAssets || !file.exists() || file.length() == 0L) {
+            generateFallbackTimeTablePdf(file)
+        }
+        return file
+    }
+
+    /**
+     * Opens or downloads the official GP Rajkot IT Department Master Time Table PDF (Term Odd 2026-27)
+     */
+    fun openOrDownloadTimeTablePdf(context: Context) {
+        try {
+            val file = getTimeTablePdfFile(context)
+
+            // Launch Intent via FileProvider
             val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
             val viewIntent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(fileUri, "application/pdf")
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
             }
 
-            val chooser = Intent.createChooser(viewIntent, "Open ${subject.name} Syllabus PDF")
+            val chooser = Intent.createChooser(viewIntent, "Open GP Rajkot Master Timetable PDF")
             chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(chooser)
-            Toast.makeText(context, "Syllabus PDF downloaded & opened: $safeFileName 📥", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Master Timetable PDF ready & opened: ${file.name} 📥", Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Could not open PDF viewer: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Could not open Time Table PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
     /**
-     * Generates and opens the official GP Rajkot IT Department Master Time Table PDF (Term Odd 2026-27)
+     * Shares the official GP Rajkot IT Department Master Time Table PDF
      */
-    fun openOrDownloadTimeTablePdf(context: Context) {
+    fun shareTimeTablePdf(context: Context) {
+        try {
+            val file = getTimeTablePdfFile(context)
+            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, fileUri)
+                putExtra(Intent.EXTRA_SUBJECT, "GP Rajkot IT Department Master Time Table (Term Odd 2026-27)")
+                putExtra(Intent.EXTRA_TEXT, "Official IT Department Master Time Table (Term Odd 2026-27) • Government Polytechnic Rajkot.")
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+            val chooser = Intent.createChooser(shareIntent, "Share Master Timetable PDF")
+            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(chooser)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Could not share PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun generateFallbackTimeTablePdf(destinationFile: File) {
         try {
             val pdfDocument = PdfDocument()
             val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -248,13 +384,11 @@ object PdfGeneratorUtil {
             val page = pdfDocument.startPage(pageInfo)
             val canvas = page.canvas
 
-            // Background & Border
             paint.color = Color.WHITE
             canvas.drawRect(0f, 0f, PAGE_WIDTH.toFloat(), PAGE_HEIGHT.toFloat(), paint)
 
             var yPos = 35f
 
-            // Institutional Title
             paint.color = Color.rgb(15, 23, 42)
             paint.textSize = 13f
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
@@ -270,11 +404,10 @@ object PdfGeneratorUtil {
 
             paint.textSize = 8f
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-            canvas.drawText("TERM: SEM 5: 15/06/2026 To 30/10/2026 | SEM 3: 13/07/2026 To 03/12/2026 (WEF: 29/06/2026)", PAGE_WIDTH / 2f, yPos, paint)
+            canvas.drawText("TERM: SEM 5: 15/06/2026 To 30/10/2026 | SEM 3: 13/07/2026 To 03/12/2026 | WEF: 07/08/2026", PAGE_WIDTH / 2f, yPos, paint)
             yPos += 18f
 
-            // Schedule Overview Table Banner
-            paint.color = Color.rgb(30, 58, 138) // Deep Blue
+            paint.color = Color.rgb(30, 58, 138)
             canvas.drawRect(MARGIN, yPos, PAGE_WIDTH - MARGIN, yPos + 22f, paint)
 
             paint.color = Color.WHITE
@@ -322,7 +455,6 @@ object PdfGeneratorUtil {
 
             paint.textSize = 7.5f
             for ((dayName, divSchedules) in days) {
-                // Day row background
                 paint.color = if (dayName == "SATURDAY") Color.rgb(254, 243, 199) else Color.rgb(248, 250, 252)
                 canvas.drawRect(MARGIN, yPos, PAGE_WIDTH - MARGIN, yPos + 62f, paint)
 
@@ -333,7 +465,6 @@ object PdfGeneratorUtil {
                 paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
                 paint.color = Color.rgb(51, 65, 85)
 
-                // Div A
                 val linesA = divSchedules[0].split("\n")
                 var lineY = yPos + 16f
                 for (l in linesA) {
@@ -341,7 +472,6 @@ object PdfGeneratorUtil {
                     lineY += 13f
                 }
 
-                // Div B
                 val linesB = divSchedules[1].split("\n")
                 lineY = yPos + 16f
                 for (l in linesB) {
@@ -349,7 +479,6 @@ object PdfGeneratorUtil {
                     lineY += 13f
                 }
 
-                // Div C
                 val linesC = divSchedules[2].split("\n")
                 lineY = yPos + 16f
                 for (l in linesC) {
@@ -363,7 +492,6 @@ object PdfGeneratorUtil {
             }
 
             yPos += 10f
-            // Faculty Key & Designation Summary Box
             paint.color = Color.rgb(241, 245, 249)
             canvas.drawRoundRect(MARGIN, yPos, PAGE_WIDTH - MARGIN, yPos + 80f, 6f, 6f, paint)
 
@@ -381,7 +509,6 @@ object PdfGeneratorUtil {
             canvas.drawText("• Labs: APL-1, APL-2 (Advanced Programming Lab) | BPL-1 (Basic Programming Lab) | Rooms: 101, 102, 103", MARGIN + 10f, yPos + 74f, paint)
             yPos += 96f
 
-            // Signatures
             paint.color = Color.rgb(15, 23, 42)
             paint.textSize = 9f
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
@@ -393,30 +520,13 @@ object PdfGeneratorUtil {
 
             pdfDocument.finishPage(page)
 
-            // Save Time Table PDF
-            val fileName = "GP_Rajkot_IT_Master_TimeTable_2026-27.pdf"
-            val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
-            val outputStream = FileOutputStream(file)
+            val outputStream = FileOutputStream(destinationFile)
             pdfDocument.writeTo(outputStream)
             outputStream.flush()
             outputStream.close()
             pdfDocument.close()
-
-            // Launch Intent
-            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-            val viewIntent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(fileUri, "application/pdf")
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-            }
-
-            val chooser = Intent.createChooser(viewIntent, "Open GP Rajkot Master Timetable PDF")
-            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(chooser)
-            Toast.makeText(context, "Master Timetable PDF downloaded & opened: $fileName 📥", Toast.LENGTH_LONG).show()
-
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Could not open Time Table PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

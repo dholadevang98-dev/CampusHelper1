@@ -206,9 +206,9 @@ object CampusSearchManager {
             tag = "POPULAR",
             iconRes = R.drawable.ic_canteen,
             accentColorRes = R.color.accent_amber,
-            actionText = "Pre-Order Thali Token (₹80)",
-            detailsHeader = "Thali Nutrition & Wait Time",
-            detailsBody = "• Freshly prepared daily lunch special\n• Available: 11:30 AM - 2:30 PM\n• Average prep wait: 4 minutes"
+            actionText = "View Live Menu (₹80)",
+            detailsHeader = "Thali Nutrition & Availability",
+            detailsBody = "• Freshly prepared daily lunch special\n• Available: 11:30 AM - 2:30 PM\n• Counter Status: Open (Fresh & Hot)"
         ),
         SearchItem(
             id = "can_02",
@@ -218,9 +218,9 @@ object CampusSearchManager {
             tag = "HOT & FRESH",
             iconRes = R.drawable.ic_canteen,
             accentColorRes = R.color.accent_amber,
-            actionText = "Pre-Order Combo Token (₹30)",
+            actionText = "View Live Menu (₹30)",
             detailsHeader = "Snack Counter Status",
-            detailsBody = "• Ready for instant pickup at Snack Counter #1\n• Fresh batch prepared every 20 minutes"
+            detailsBody = "• Fresh batch prepared every 20 minutes\n• Pickup at Snack Counter #1"
         ),
         SearchItem(
             id = "can_03",
@@ -230,21 +230,21 @@ object CampusSearchManager {
             tag = "BESTSELLER",
             iconRes = R.drawable.ic_canteen,
             accentColorRes = R.color.accent_amber,
-            actionText = "Pre-Order Snack Token (₹50)",
+            actionText = "View Live Menu (₹50)",
             detailsHeader = "Special Item",
-            detailsBody = "• Fresh whole wheat or white bread option\n• Quick pickup: Counter #2"
+            detailsBody = "• Fresh whole wheat or white bread option\n• Available at Counter #2"
         ),
         SearchItem(
             id = "can_04",
             title = "Main Food Court Counter Status",
-            subtitle = "Live token queue & counter rush tracker",
+            subtitle = "Live counter rush & operating hours tracker",
             category = Category.CANTEEN,
             tag = "LOW RUSH (4 MIN)",
             iconRes = R.drawable.ic_canteen,
             accentColorRes = R.color.accent_emerald,
             actionText = "View Live Counter Rush",
             detailsHeader = "Food Court Rush Index",
-            detailsBody = "• Current Tokens in Queue: 6\n• Estimated Wait: 4 minutes\n• All 3 billing counters active"
+            detailsBody = "• Current Counter Rush: Low\n• Estimated Wait: 2-4 minutes\n• All 3 serving counters active"
         ),
         SearchItem(
             id = "can_05",
@@ -254,12 +254,24 @@ object CampusSearchManager {
             tag = "LUNCH SPECIAL",
             iconRes = R.drawable.ic_canteen,
             accentColorRes = R.color.accent_amber,
-            actionText = "Pre-Order Chole Bhature (₹60)",
+            actionText = "View Live Menu (₹60)",
             detailsHeader = "Lunch Special Platter",
-            detailsBody = "• Served hot between 12:00 PM and 3:00 PM\n• Pickup at Counter #3"
+            detailsBody = "• Served hot between 12:00 PM and 3:00 PM\n• Available at Counter #3"
         ),
 
         // Timetable & Labs
+        SearchItem(
+            id = "time_master_it",
+            title = "GP Rajkot IT Master Time Table (Term Odd 2026-27)",
+            subtitle = "Official Time Table PDF • Sem 5-A, 5-B, 5-C • WEF 07/08/2026",
+            category = Category.TIMETABLE,
+            tag = "OFFICIAL PDF",
+            iconRes = R.drawable.ic_timetable,
+            accentColorRes = R.color.splash_accent_primary,
+            actionText = "📄 Open Official Master Timetable PDF",
+            detailsHeader = "Official Master Timetable Details",
+            detailsBody = "• Institution: Government Polytechnic Rajkot (IT Dept)\n• Term: Odd 2026-27 (WEF: 07/08/2026)\n• Sem 5-A (Room 101), Sem 5-B (Room 102), Sem 5-C (Room 103)\n• Labs: APL-1, APL-2, BPL-1 | 30 Hours/Week (12 Th + 18 Prac)\n• Includes all batch practical allocations & signed PDF"
+        ),
         SearchItem(
             id = "time_01",
             title = "Data Structures & Algorithms Lab",
@@ -772,8 +784,8 @@ object CampusSearchManager {
             theoryPaMarks = 30,
             practicalPaMarks = 20,
             practicalEseMarks = 30,
-            prerequisite = "Basic understanding of computer systems, operating systems, networking fundamentals, databases, and web technologies.",
-            rationale = "Equips students with foundational knowledge in cloud computing and data center technologies including virtualization, cloud architectures, storage, security, and modern containers.",
+            prerequisite = "Students are expected to have a basic understanding of computer systems, operating systems, and networking fundamentals. Familiarity with databases and basic programming concepts is beneficial for better comprehension. Prior exposure to web technologies can further support understanding of cloud-based services.",
+            rationale = "This course equips students with the foundational knowledge required in cloud computing and data center technologies. It highlights key advantages such as virtualization, enhanced security, and global accessibility, which collectively make these technologies integral to modern IT infrastructure. These capabilities enable organizations to effectively respond to rapidly evolving technological demands. Upon completion of the course, students will be able to understand various cloud service and deployment models, implement security mechanisms, design and manage data centers, apply virtualization techniques, utilize cloud storage and database services, and explore as well as implement emerging technologies within the domain of cloud computing.",
             courseOutcomes = listOf(
                 CourseOutcome("01", "Understand the concept of Cloud architecture and its model.", "Understand"),
                 CourseOutcome("02", "Apply the virtualization concept with its types.", "Apply"),
@@ -789,10 +801,10 @@ object CampusSearchManager {
                     hours = 4,
                     weightagePercent = 8,
                     topics = listOf(
-                        "1.1 Trends in computing (Distributed, Grid, Cluster, Utility, Cloud)",
-                        "1.2 Define Cloud Computing (Characteristics, Roots of cloud computing)",
-                        "1.3 Cloud Service Model (Cloud Architecture, IaaS, PaaS, SaaS)",
-                        "1.4 Deployment Models (Private, Community, Public, Hybrid cloud)",
+                        "1.1 Trends in computing (1.1.1 Distributed Computing, 1.1.2 Grid Computing, 1.1.3 Cluster Computing, 1.1.4 Utility Computing, 1.1.5 Cloud Computing)",
+                        "1.2 Define Cloud Computing (1.2.1 Define cloud computing, 1.2.2 Characteristics of Cloud Computing, 1.2.3 Roots of cloud computing)",
+                        "1.3 Cloud Service Model (1.3.1 Cloud Architecture and Platforms, 1.3.2 IaaS, 1.3.3 Paas, 1.3.4 SaaS)",
+                        "1.4 Deployment Models (1.4.1 Private cloud, 1.4.1 Community cloud, 1.4.1 Public cloud, 1.4.1 Hybrid cloud)",
                         "1.5 Desired Features of a Cloud",
                         "1.6 Pros and Cons of Cloud computing",
                         "1.7 Applications of cloud computing"
@@ -806,8 +818,8 @@ object CampusSearchManager {
                     topics = listOf(
                         "2.1 Introduction to Cloud virtualization",
                         "2.2 Characteristics and overview of virtualization",
-                        "2.3 Types of Cloud Virtualization (Hardware, Software, Full, Para, Partial, OS level virtualization)",
-                        "2.4 Hypervisors and Virtual Machines (Type 1 and Type 2, Creating and managing VMs)",
+                        "2.3 Types of Cloud Virtualization (2.3.1 Hardware virtualization, 2.3.2 Software Virtualization, 2.3.3 Full virtualization, 2.3.4 Para virtualization, 2.3.5 Partial virtualization, 2.3.6 Operating system level virtualization)",
+                        "2.4 Hypervisors and Virtual Machines (2.4.1 Introduction to Hypervisors Type 1 and Type 2, 2.4.2 Creating and managing Virtual Machines)",
                         "2.5 Virtualization of Clusters and data centers automation"
                     )
                 ),
@@ -817,9 +829,9 @@ object CampusSearchManager {
                     hours = 9,
                     weightagePercent = 20,
                     topics = listOf(
-                        "3.1 Data Center Fundamentals (Historical perspective, Key components)",
-                        "3.2 Data Center Networking (Topologies, SDN - Software-Defined Networking in data center)",
-                        "3.3 Data Center Automation and Scaling (Automation, Infrastructure as Code / IaC tools, Scalability & elasticity)"
+                        "3.1 Data Center Fundamentals (3.1.1 Historical perspective and evolution, 3.1.2 Key components of a data center)",
+                        "3.2 Data Center Networking (3.2.1 Data center network topologies, 3.2.2 SDN - Software-Defined Networking in data center)",
+                        "3.3 Data Center Automation and Scaling (3.3.1 Automation in Data Centers, 3.3.2 Infrastructure as Code / IaC tools, 3.3.3 Scalability and elasticity in cloud data centers)"
                     )
                 ),
                 SyllabusUnit(
@@ -828,8 +840,8 @@ object CampusSearchManager {
                     hours = 9,
                     weightagePercent = 20,
                     topics = listOf(
-                        "4.1 Cloud Storage Solutions (Object, block, file storage, Data consistency & durability)",
-                        "4.2 Cloud Databases (Types: SQL, NoSQL, Data scaling and replication)"
+                        "4.1 Cloud Storage Solutions (4.1.1 Object storage, block storage, and file storage in the cloud, 4.1.2 Data consistency and durability)",
+                        "4.2 Cloud Databases (4.2.1 Types of cloud databases: SQL, NoSQL, 4.2.2 Data scaling and replication)"
                     )
                 ),
                 SyllabusUnit(
@@ -838,9 +850,9 @@ object CampusSearchManager {
                     hours = 6,
                     weightagePercent = 14,
                     topics = listOf(
-                        "5.1 Security in the Cloud (Challenges, Identity & Access Management, Access control & authentication)",
-                        "5.2 Data Security in Cloud (Technologies for Data Security)",
-                        "5.3 Securing Private and Public Cloud Architecture (SLA Metrics, DevSecOps)"
+                        "5.1 Security in the Cloud (5.1.1 Cloud security challenges, 5.1.2 Identity and access management, 5.1.3 Access control and authentication in cloud computing)",
+                        "5.2 Data Security in Cloud (5.2.1 Technologies for Data Security in Cloud)",
+                        "5.3 Securing Private and Public Cloud Architecture (5.3.1 Metrics for Service Level Agreements / SLAs, 5.3.2 DevSecOps)"
                     )
                 ),
                 SyllabusUnit(
@@ -861,28 +873,28 @@ object CampusSearchManager {
                 )
             ),
             suggestedPracticals = listOf(
-                "Sketch out & analyze architecture of OpenStack/Eucalyptus/OpenNebula/KVM",
-                "Create a Cloud Organization in AWS/Google Cloud/OpenStack with Role-based access control",
-                "Install VirtualBox/VMware workstation with Linux/Windows guest OS",
+                "Sketch out and analyze the architecture of Openstack/ Eucalyptus/ OpenNebula/ KVM and identify different entities to understand the structure of it",
+                "Create a Cloud Organization in AWS/Google Cloud/or any equivalent Open Source cloud softwares like Openstack/ Eucalyptus/ OpenNebula with Rolebased access control",
+                "Install Virtualbox/VMware/ Equivalent open source cloud Workstation with different platforms of Linux or Windows OS on top of windows 8 and above",
                 "Create desktop Virtualization using Chrome Remote Desktop",
-                "Setup virtual SDN lab using Mininet Environment (mininet.org)",
-                "Study and comparison on cloud databases (Amazon RDS, Cloud SQL, Azure SQL, Mongo Atlas)",
-                "Study and comparison on cloud storage (Amazon S3, Google Cloud Storage, Azure Blob Storage)",
-                "Simulate secure file sharing using CloudSim open-source framework",
-                "Implement secure object storage with access control and encryption",
+                "Setup your own virtual SDN lab using Virtualbox/Mininet Environment for SDN (http://mininet.org)",
+                "A study and comparison on various cloud databases like Amazon RDS, Google Cloud SQL, Microsoft Azure SQL Database, IBM Db2 on Cloud, Firebase Realtime Database (NoSQL), MongoDB Atlas (NoSQL), Oracle Cloud Autonomous Database",
+                "A study and comparison on various cloud storage like Amazon S3, Google Cloud Storage, Microsoft Azure Blob Storage, IBM Cloud Object Storage for its performance and scalability",
+                "Simulate a secure file sharing using a cloudsim open-source framework",
+                "To implement secure object storage with access control and encryption using an open-source cloud storage platform",
                 "Creating and Executing Your First Container Using Docker platform"
             ),
             books = listOf(
-                SyllabusBook(1, "Cloud computing, Principles and Paradigm", "Rajkumar Buyya, J. Broberg, A. Goscinski", "John Wiley & Sons, ISBN: 978-0-470-88799-8"),
-                SyllabusBook(2, "Mastering Cloud Computing", "Rajkumar Buyya, Christian Vecchiola, S Thamarai Selvi", "McGraw Hill, ISBN: 978-1-25-902995-0"),
-                SyllabusBook(3, "Cloud Computing Bible", "Barrie Sosinsky", "Wiley Publishing, ISBN: 978-0-470-90356-8"),
-                SyllabusBook(4, "Cloud Computing: A Practical Approach", "Anthony T. Velte, Toby J. Velte, Robert Elsenpeter", "McGraw Hill, ISBN: 978-0-07-068351-8"),
+                SyllabusBook(1, "Cloud computing, Principles and Paradigm", "Rajkumar Buyya, J. Broberg, A. Goscinski", "John Wiley & Sons, Inc., ISBN: 978-0-470-88799-8"),
+                SyllabusBook(2, "Mastering Cloud Computing", "Rajkumar Buyya, Christian Vecchiola, S Thamarai Selvi", "McGraw Hill Publication, ISBN: 978-1-25-902995-0"),
+                SyllabusBook(3, "Cloud Computing Bible", "Barrie Sosinsky", "Wiley Publishing, Inc., ISBN: 978-0-470-90356-8"),
+                SyllabusBook(4, "Cloud Computing: A Practical Approach", "Anthony T. Velte, Toby J. Velte, Robert Elsenpeter", "McGraw Hill Publication, ISBN: 978-0-07-068351-8"),
                 SyllabusBook(5, "Cloud Data Centers and Cost Modeling", "Caesar Wu, Rajkumar Buyya", "Elsevier Science, ISBN: 978-0-12-801413-4")
             ),
             sampleProjects = listOf(
                 "Create a cloud-based web/mobile application",
-                "Case study report on Amazon Cloud Services / Google Cloud",
-                "Host a static website using AWS S3 / CloudFront or equivalent"
+                "Prepare the report on case study of Amazon Cloud Services / Google Cloud",
+                "Host a static website using AWS or any other clouds"
             )
         ),
 
