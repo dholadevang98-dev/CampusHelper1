@@ -4,6 +4,7 @@ object CampusSearchManager {
 
     enum class Category(val displayName: String, val iconRes: Int, val accentColorRes: Int) {
         ALL("All", R.drawable.ic_search, R.color.splash_accent_primary),
+        ASSIGNMENTS("Assignments", R.drawable.ic_library, R.color.accent_amber),
         SYLLABUS("Syllabus", R.drawable.ic_library, R.color.splash_accent_primary),
         NOTICES("Notices", R.drawable.ic_notices, R.color.accent_cyan),
         LIBRARY("Library", R.drawable.ic_library, R.color.accent_emerald),
@@ -72,7 +73,81 @@ object CampusSearchManager {
         val detailsBody: String
     )
 
-    private val CAMPUS_DATABASE = listOf(
+    private val CAMPUS_DATABASE = mutableListOf(
+        // Assignments
+        SearchItem(
+            id = "ass_aipd_02",
+            title = "AIPD Assignment 2 [CO2]",
+            subtitle = "AI Product Design (DI05016021) • Design Thinking, Empathy Map, XAI",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (9 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_amber,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 2 - Design Thinking & UX for AI",
+            detailsBody = "• 9 Questions aligned with CO2\n• Topics: Design Thinking stages, Empathy map, User personas, AI Bias & XAI\n• Department: IT Dept, GP Rajkot"
+        ),
+        SearchItem(
+            id = "ass_aiwpe_05",
+            title = "AIWPE Assignment 5 [CO5]",
+            subtitle = "AI with Prompt Engineering (DI05016011) • AI APIs & Productivity Tools",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (5 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_cyan,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 5 - AI APIs & Applications",
+            detailsBody = "• 5 Questions aligned with CO5\n• Topics: AI for emails/reports/presentations, Code generation/debugging, OpenAI & Gemini APIs"
+        ),
+        SearchItem(
+            id = "ass_aipd_04",
+            title = "AIPD Assignment 4 [CO4]",
+            subtitle = "AI Product Design (DI05016021) • Virtual Influencer & Recommendation",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (7 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_violet,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 4 - Social Media & Prototyping",
+            detailsBody = "• 7 Questions aligned with CO4\n• Topics: Virtual Influencers, Recommendation feeds (Reels/TikTok), E-commerce chatbots, Fake news & Bot networks"
+        ),
+        SearchItem(
+            id = "ass_spc_03",
+            title = "SPC Assignment 3 [CO3]",
+            subtitle = "Structured Programming with C (DI05016061) • User Defined Functions",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (5 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_emerald,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 3 - User-Defined Functions in C",
+            detailsBody = "• 5 Questions aligned with CO3\n• Topics: Function definition, Elements of UDF, Function prototypes, Function call & 4 Categories"
+        ),
+        SearchItem(
+            id = "ass_cdct_01",
+            title = "CDCT Assignment 1 [CO1]",
+            subtitle = "Cyber Security & Data Privacy (DI05016041) • CIA Triad & Cryptography",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (6 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_rose,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 1 - Fundamentals of Cyber Security",
+            detailsBody = "• 6 Questions aligned with CO1\n• Topics: CIA Triad, Threat vs Vulnerability, Symmetric vs Asymmetric crypto, Firewalls"
+        ),
+        SearchItem(
+            id = "ass_eidw_01",
+            title = "EIDW Assignment 1 [CO1]",
+            subtitle = "Enterprise Intelligence & Data Warehousing (DI05016051) • ETL & Schemas",
+            category = Category.ASSIGNMENTS,
+            tag = "ACTIVE (5 Qs)",
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.accent_sky,
+            actionText = "Open Assignment PDF",
+            detailsHeader = "Assignment 1 - Data Warehouse Architecture",
+            detailsBody = "• 5 Questions aligned with CO1\n• Topics: OLTP vs OLAP, Star vs Snowflake schema, ETL process, Data Marts"
+        ),
+
         // Notices & Circulars
         SearchItem(
             id = "not_01",
@@ -498,7 +573,7 @@ object CampusSearchManager {
     )
 
     // ==================== DEDICATED GTU SYLLABUS DATABASE ====================
-    private val SYLLABUS_DATABASE = listOf(
+    private val SYLLABUS_DATABASE = mutableListOf(
         SyllabusSubject(
             code = "DI05016011",
             name = "Artificial Intelligence with Prompt Engineering",
@@ -1151,6 +1226,91 @@ object CampusSearchManager {
      * Returns the complete GTU Syllabus Database for Semester 5 IT
      */
     fun getSyllabusDatabase(): List<SyllabusSubject> = SYLLABUS_DATABASE
+
+    /**
+     * Adds a new subject to the live syllabus database
+     */
+    fun addSyllabusSubject(subject: SyllabusSubject) {
+        val existingIndex = SYLLABUS_DATABASE.indexOfFirst { it.code.equals(subject.code, ignoreCase = true) }
+        if (existingIndex >= 0) {
+            SYLLABUS_DATABASE[existingIndex] = subject
+        } else {
+            SYLLABUS_DATABASE.add(0, subject)
+        }
+
+        // Also add or update in CAMPUS_DATABASE for global search
+        val searchIdx = CAMPUS_DATABASE.indexOfFirst { it.id == "syl_${subject.code.lowercase()}" }
+        val searchItem = SearchItem(
+            id = "syl_${subject.code.lowercase()}",
+            title = "${subject.name} (${subject.code})",
+            subtitle = "Semester ${subject.semester} • ${subject.branch} • ${subject.credits} Credits • ${subject.category} • ${subject.totalMarks} Total Marks",
+            category = Category.SYLLABUS,
+            tag = subject.code,
+            iconRes = R.drawable.ic_library,
+            accentColorRes = R.color.splash_accent_primary,
+            actionText = "View Detailed Unit Breakdown",
+            detailsHeader = "GTU Syllabus: ${subject.name}",
+            detailsBody = "• Code: ${subject.code} | Credits: ${subject.credits} | Category: ${subject.category}\n• Total Marks: ${subject.totalMarks}\n• Rationale: ${subject.rationale}"
+        )
+        if (searchIdx >= 0) {
+            CAMPUS_DATABASE[searchIdx] = searchItem
+        } else {
+            CAMPUS_DATABASE.add(0, searchItem)
+        }
+    }
+
+    /**
+     * Removes a subject from the live syllabus database
+     */
+    fun removeSyllabusSubject(code: String) {
+        SYLLABUS_DATABASE.removeAll { it.code.equals(code, ignoreCase = true) }
+        CAMPUS_DATABASE.removeAll { it.id == "syl_${code.lowercase()}" || it.tag.equals(code, ignoreCase = true) }
+    }
+
+    /**
+     * Adds a custom Lost & Found item to the live campus search database
+     */
+    fun addLostFoundItem(title: String, location: String, contact: String, status: String): SearchItem {
+        val id = "serv_lf_${System.currentTimeMillis()}"
+        val item = SearchItem(
+            id = id,
+            title = "Lost & Found: $title",
+            subtitle = "Location: $location • Contact: $contact",
+            category = Category.SERVICES,
+            tag = status.ifBlank { "FOUND ITEM" },
+            iconRes = R.drawable.ic_lost_found,
+            accentColorRes = R.color.accent_rose,
+            actionText = "Claim / Inquire Desk",
+            detailsHeader = "Item Status & Claim Instructions",
+            detailsBody = "• Item: $title\n• Location: $location\n• Desk/Finder: $contact\n• Status: $status\n• Contact campus security or admin office with student ID."
+        )
+        CAMPUS_DATABASE.add(0, item)
+        return item
+    }
+
+    /**
+     * Updates Master Timetable record in CAMPUS_DATABASE
+     */
+    fun updateMasterTimetable(termDates: String, classrooms: String, labs: String, weeklyHours: String) {
+        val idx = CAMPUS_DATABASE.indexOfFirst { it.id == "time_master_it" }
+        val updated = SearchItem(
+            id = "time_master_it",
+            title = "GP Rajkot IT Master Time Table ($termDates)",
+            subtitle = "Official Classrooms: $classrooms • Labs: $labs",
+            category = Category.TIMETABLE,
+            tag = "OFFICIAL PDF",
+            iconRes = R.drawable.ic_timetable,
+            accentColorRes = R.color.splash_accent_primary,
+            actionText = "📄 Open Official Master Timetable PDF",
+            detailsHeader = "Official Master Timetable Details",
+            detailsBody = "• Institution: Government Polytechnic Rajkot (IT Dept)\n• Term: $termDates\n• Classrooms: $classrooms\n• Labs: $labs | $weeklyHours\n• All batch practical allocations active."
+        )
+        if (idx >= 0) {
+            CAMPUS_DATABASE[idx] = updated
+        } else {
+            CAMPUS_DATABASE.add(0, updated)
+        }
+    }
 
     /**
      * Looks up a syllabus subject by its GTU course code or keywords

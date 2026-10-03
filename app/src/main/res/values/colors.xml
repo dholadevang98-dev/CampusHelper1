@@ -52,6 +52,7 @@
 
     <!-- Input Field Colors -->
     <color name="input_bg">#111A2B</color>             <!-- Deep Input Slate -->
+    <color name="input_stroke">#253347</color>
     <color name="input_stroke_default">#253347</color>
     <color name="input_stroke_focus">#6366F1</color>
     <color name="input_hint">#64748B</color>

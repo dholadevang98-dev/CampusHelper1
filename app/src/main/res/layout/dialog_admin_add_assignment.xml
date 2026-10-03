@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Drag Handle -->
+        <View
+            android:layout_width="44dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/bg_chip_status" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvAddAssignmentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Add / Edit Assignment"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Fill in assignment details, CO mapping, and questions"
+            android:textColor="@color/splash_text_secondary"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="14dp"
+            android:background="@color/divider_color" />
+
+        <!-- Subject Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAssignmentSubjectName"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Subject Name (e.g. AI Product Design)"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAssignmentSubjectName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Subject Code & Assignment Number Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAssignmentSubjectCode"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:hint="Course Code (DI05016021)"
+                android:textColorHint="@color/input_hint"
+                app:boxBackgroundColor="@color/input_bg"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/input_stroke_focus"
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/splash_accent_glow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAssignmentSubjectCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="14dp"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAssignmentNo"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="0.8"
+                android:hint="Assignment #"
+                android:textColorHint="@color/input_hint"
+                app:boxBackgroundColor="@color/input_bg"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/input_stroke_focus"
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/splash_accent_glow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAssignmentNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="number"
+                    android:padding="14dp"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Assignment Heading / Title -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAssignmentHeading"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Assignment Title (e.g. Assignment - 2 [Aligned with CO2])"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAssignmentHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Aligned CO & Date Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAssignmentCO"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1.2"
+                android:hint="CO Alignment (e.g. CO2)"
+                android:textColorHint="@color/input_hint"
+                app:boxBackgroundColor="@color/input_bg"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/input_stroke_focus"
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/splash_accent_glow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAssignmentCO"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="14dp"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAssignmentDate"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:hint="Date (e.g. 14/08/2026)"
+                android:textColorHint="@color/input_hint"
+                app:boxBackgroundColor="@color/input_bg"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/input_stroke_focus"
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/splash_accent_glow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAssignmentDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:padding="14dp"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Questions Multi-line Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAssignmentQuestions"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Assignment Questions (1 per line or numbered)"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAssignmentQuestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="top"
+                android:lines="6"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:text="Tip: Enter questions manually OR attach an official PDF file below."
+            android:textColor="@color/text_muted"
+            android:textSize="11sp" />
+
+        <!-- Attached PDF Attachment Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Attach PDF File from Storage (Add / Replace PDF)"
+            android:textColor="@color/splash_accent_glow"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickAssignmentPdf"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="📁 Pick / Replace Assignment PDF File"
+            android:textAllCaps="false"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="12.5sp"
+            app:backgroundTint="@color/glass_card_bg_elevated"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/splash_accent_glow"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/tvSelectedAssignmentPdfName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Default: Auto-generated GTU Official Assignment PDF"
+            android:textColor="@color/accent_amber"
+            android:textSize="11.5sp" />
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveAssignment"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-bold"
+            android:letterSpacing="0.02"
+            android:text="💾 Save &amp; Sync Assignment"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:backgroundTint="@color/accent_amber"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

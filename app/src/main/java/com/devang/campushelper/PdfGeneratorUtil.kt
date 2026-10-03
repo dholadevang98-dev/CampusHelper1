@@ -35,6 +35,15 @@ object PdfGeneratorUtil {
      * Retrieves or extracts the authentic GTU Syllabus PDF for the given subject
      */
     fun getSyllabusPdfFile(context: Context, subject: CampusSearchManager.SyllabusSubject): File {
+        val pref = PreferenceHelper(context)
+        val customPath = pref.getCustomSyllabusPdf(subject.code)
+        if (customPath.isNotEmpty()) {
+            val customFile = File(customPath)
+            if (customFile.exists() && customFile.length() > 0L) {
+                return customFile
+            }
+        }
+
         val assetFileName = getSyllabusAssetFileName(subject.code)
         val targetFileName = assetFileName ?: "GTU_Syllabus_${subject.code}_${subject.name.replace(" ", "_")}.pdf"
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), targetFileName)
@@ -308,6 +317,15 @@ object PdfGeneratorUtil {
      * Retrieves or extracts the authentic GP Rajkot IT Department Master Time Table PDF
      */
     fun getTimeTablePdfFile(context: Context): File {
+        val pref = PreferenceHelper(context)
+        val customPath = pref.customTimetablePdfPath
+        if (customPath.isNotEmpty()) {
+            val customFile = File(customPath)
+            if (customFile.exists() && customFile.length() > 0L) {
+                return customFile
+            }
+        }
+
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), TIMETABLE_FILE_NAME)
         var extractedFromAssets = false
         try {
@@ -529,4 +547,217 @@ object PdfGeneratorUtil {
             e.printStackTrace()
         }
     }
+
+    /**
+     * Retrieves or generates the authentic GTU Assignment PDF for the given assignment model
+     */
+    fun getAssignmentPdfFile(context: Context, assignment: AssignmentManager.AssignmentModel): File {
+        if (!assignment.customFilePath.isNullOrEmpty()) {
+            val customFile = File(assignment.customFilePath!!)
+            if (customFile.exists() && customFile.length() > 0L) {
+                return customFile
+            }
+        }
+        val fileName = "GP_Rajkot_${assignment.subjectCode}_Assignment_${assignment.assignmentNo}.pdf"
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
+        if (!file.exists() || file.length() == 0L) {
+            generateAssignmentPdf(assignment, file)
+        }
+        return file
+    }
+
+    /**
+     * Opens or downloads the authentic GTU Assignment PDF
+     */
+    fun openOrDownloadAssignmentPdf(context: Context, assignment: AssignmentManager.AssignmentModel) {
+        try {
+            val file = getAssignmentPdfFile(context, assignment)
+
+            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val viewIntent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(fileUri, "application/pdf")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+
+            val chooser = Intent.createChooser(viewIntent, "Open ${assignment.subjectName} Assignment ${assignment.assignmentNo}")
+            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(chooser)
+            Toast.makeText(context, "Assignment PDF opened: ${assignment.title} 📄", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Could not open Assignment PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Shares the official GTU Assignment PDF
+     */
+    fun shareAssignmentPdf(context: Context, assignment: AssignmentManager.AssignmentModel) {
+        try {
+            val file = getAssignmentPdfFile(context, assignment)
+            val fileUri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, fileUri)
+                putExtra(Intent.EXTRA_SUBJECT, "${assignment.subjectName}: ${assignment.title}")
+                putExtra(Intent.EXTRA_TEXT, "Official GTU IT Assignment: ${assignment.subjectName} (${assignment.subjectCode}) - ${assignment.title}.")
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+            val chooser = Intent.createChooser(shareIntent, "Share Assignment PDF")
+            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(chooser)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Could not share PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun generateAssignmentPdf(assignment: AssignmentManager.AssignmentModel, destinationFile: File) {
+        try {
+            val pdfDocument = PdfDocument()
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+            var currentPageNumber = 1
+            var pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, currentPageNumber).create()
+            var page = pdfDocument.startPage(pageInfo)
+            var canvas = page.canvas
+            var yPos = 45f
+
+            fun drawHeader() {
+                paint.color = Color.rgb(15, 23, 42)
+                paint.textSize = 13.5f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                paint.textAlign = Paint.Align.CENTER
+                canvas.drawText("Government Polytechnic Rajkot", PAGE_WIDTH / 2f, yPos, paint)
+                yPos += 18f
+
+                paint.color = Color.rgb(71, 85, 105)
+                paint.textSize = 11f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                canvas.drawText("Information Technology Department", PAGE_WIDTH / 2f, yPos, paint)
+                yPos += 22f
+
+                // Meta table info
+                paint.textSize = 9.5f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+                paint.color = Color.rgb(30, 41, 59)
+                paint.textAlign = Paint.Align.LEFT
+                canvas.drawText("Course Code: ${assignment.subjectCode}", MARGIN, yPos, paint)
+                paint.textAlign = Paint.Align.RIGHT
+                canvas.drawText("Date: ${assignment.dateText}", PAGE_WIDTH - MARGIN, yPos, paint)
+                yPos += 16f
+
+                paint.textAlign = Paint.Align.LEFT
+                canvas.drawText("Course Name: ${assignment.subjectName}", MARGIN, yPos, paint)
+                paint.textAlign = Paint.Align.RIGHT
+                canvas.drawText("Semester: ${assignment.semester}th", PAGE_WIDTH - MARGIN, yPos, paint)
+                yPos += 18f
+
+                paint.color = Color.rgb(203, 213, 225)
+                paint.strokeWidth = 1.2f
+                canvas.drawLine(MARGIN, yPos, PAGE_WIDTH - MARGIN, yPos, paint)
+                yPos += 20f
+
+                // Assignment Title
+                paint.color = Color.rgb(18, 60, 105)
+                paint.textSize = 12f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+                paint.textAlign = Paint.Align.CENTER
+                canvas.drawText(assignment.title, PAGE_WIDTH / 2f, yPos, paint)
+                yPos += 16f
+
+                if (assignment.alignedCO.isNotBlank()) {
+                    paint.color = Color.rgb(99, 102, 241)
+                    paint.textSize = 8.5f
+                    paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+                    canvas.drawText("[${assignment.alignedCO}]", PAGE_WIDTH / 2f, yPos, paint)
+                    yPos += 18f
+                }
+
+                paint.textAlign = Paint.Align.LEFT
+            }
+
+            fun checkNewPage(neededHeight: Float) {
+                if (yPos + neededHeight > PAGE_HEIGHT - 55f) {
+                    paint.color = Color.rgb(148, 163, 184)
+                    paint.textSize = 8.5f
+                    paint.textAlign = Paint.Align.RIGHT
+                    canvas.drawText("Page $currentPageNumber • GP Rajkot IT Department", PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 30f, paint)
+                    paint.textAlign = Paint.Align.LEFT
+
+                    pdfDocument.finishPage(page)
+                    currentPageNumber++
+                    pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, currentPageNumber).create()
+                    page = pdfDocument.startPage(pageInfo)
+                    canvas = page.canvas
+                    yPos = 45f
+                    drawHeader()
+                }
+            }
+
+            drawHeader()
+
+            // Questions
+            for (q in assignment.questions) {
+                checkNewPage(26f)
+                paint.color = Color.rgb(15, 23, 42)
+                paint.textSize = 9.5f
+                paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+
+                // Word wrap question text
+                val qPrefix = if (q.qNo.startsWith("Q", ignoreCase = true)) "${q.qNo}. " else "${q.qNo}. "
+                val fullQuestion = "$qPrefix${q.text}"
+                
+                val maxTextWidth = PAGE_WIDTH - (MARGIN * 2)
+                val words = fullQuestion.split(" ")
+                var currentLine = ""
+                for (w in words) {
+                    val testLine = if (currentLine.isEmpty()) w else "$currentLine $w"
+                    if (paint.measureText(testLine) > maxTextWidth) {
+                        checkNewPage(16f)
+                        canvas.drawText(currentLine, MARGIN, yPos, paint)
+                        yPos += 14f
+                        currentLine = "   $w"
+                    } else {
+                        currentLine = testLine
+                    }
+                }
+                if (currentLine.isNotEmpty()) {
+                    checkNewPage(16f)
+                    canvas.drawText(currentLine, MARGIN, yPos, paint)
+                    yPos += 16f
+                }
+
+                // Subpoints
+                if (q.subPoints.isNotEmpty()) {
+                    paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+                    paint.color = Color.rgb(51, 65, 85)
+                    paint.textSize = 9f
+                    for (sp in q.subPoints) {
+                        checkNewPage(14f)
+                        canvas.drawText("      $sp", MARGIN + 12f, yPos, paint)
+                        yPos += 14f
+                    }
+                }
+                yPos += 6f
+            }
+
+            // Footer
+            paint.color = Color.rgb(148, 163, 184)
+            paint.textSize = 8.5f
+            paint.textAlign = Paint.Align.RIGHT
+            canvas.drawText("Page $currentPageNumber • GP Rajkot IT Department", PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 30f, paint)
+
+            pdfDocument.finishPage(page)
+
+            val outputStream = FileOutputStream(destinationFile)
+            pdfDocument.writeTo(outputStream)
+            outputStream.flush()
+            outputStream.close()
+            pdfDocument.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }
+

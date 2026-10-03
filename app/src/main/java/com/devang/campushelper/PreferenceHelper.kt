@@ -81,6 +81,10 @@ class PreferenceHelper(context: Context) {
         get() = prefs.getString(KEY_CANTEEN_RUSH, "🟢 Low Rush (4 min)") ?: "🟢 Low Rush (4 min)"
         set(value) = prefs.edit().putString(KEY_CANTEEN_RUSH, value).apply()
 
+    var canteenSpecialItem: String
+        get() = prefs.getString("key_canteen_special_item", "Deluxe Gujarati Thali ₹80 • Chai Combo ₹30") ?: "Deluxe Gujarati Thali ₹80 • Chai Combo ₹30"
+        set(value) = prefs.edit().putString("key_canteen_special_item", value).apply()
+
     var broadcastTitle: String
         get() = prefs.getString(KEY_BROADCAST_TITLE, "Mid-Semester Examination Schedule Released") ?: "Mid-Semester Examination Schedule Released"
         set(value) = prefs.edit().putString(KEY_BROADCAST_TITLE, value).apply()
@@ -89,6 +93,10 @@ class PreferenceHelper(context: Context) {
         get() = prefs.getString(KEY_BROADCAST_MSG, "GTU mid-semester exams commence from 15th October. Hall tickets available on portal.") ?: "GTU mid-semester exams commence from 15th October. Hall tickets available on portal."
         set(value) = prefs.edit().putString(KEY_BROADCAST_MSG, value).apply()
 
+    var broadcastPriority: String
+        get() = prefs.getString("key_broadcast_priority", "🚨 HIGH PRIORITY") ?: "🚨 HIGH PRIORITY"
+        set(value) = prefs.edit().putString("key_broadcast_priority", value).apply()
+
     var isBroadcastActive: Boolean
         get() = prefs.getBoolean(KEY_BROADCAST_ACTIVE, true)
         set(value) = prefs.edit().putBoolean(KEY_BROADCAST_ACTIVE, value).apply()
@@ -96,6 +104,62 @@ class PreferenceHelper(context: Context) {
     var adminPin: String
         get() = prefs.getString(KEY_ADMIN_PIN, "620620") ?: "620620"
         set(value) = prefs.edit().putString(KEY_ADMIN_PIN, value).apply()
+
+    var liveLectureSubject: String
+        get() = prefs.getString("key_live_lecture_subject", "Data Structures & Algorithms") ?: "Data Structures & Algorithms"
+        set(value) = prefs.edit().putString("key_live_lecture_subject", value).apply()
+
+    var liveLectureRoom: String
+        get() = prefs.getString("key_live_lecture_room", "Lab 302") ?: "Lab 302"
+        set(value) = prefs.edit().putString("key_live_lecture_room", value).apply()
+
+    var liveLectureFaculty: String
+        get() = prefs.getString("key_live_lecture_faculty", "Prof. Mehta") ?: "Prof. Mehta"
+        set(value) = prefs.edit().putString("key_live_lecture_faculty", value).apply()
+
+    var liveLectureTiming: String
+        get() = prefs.getString("key_live_lecture_timing", "11:00 AM - 12:00 PM") ?: "11:00 AM - 12:00 PM"
+        set(value) = prefs.edit().putString("key_live_lecture_timing", value).apply()
+
+    var liveLectureCountdown: String
+        get() = prefs.getString("key_live_lecture_countdown", "Starts in 18 mins") ?: "Starts in 18 mins"
+        set(value) = prefs.edit().putString("key_live_lecture_countdown", value).apply()
+
+    var timetableTermDates: String
+        get() = prefs.getString("key_timetable_term_dates", "Term: Odd 2026-27 (WEF: 07/08/2026)") ?: "Term: Odd 2026-27 (WEF: 07/08/2026)"
+        set(value) = prefs.edit().putString("key_timetable_term_dates", value).apply()
+
+    var timetableClassrooms: String
+        get() = prefs.getString("key_timetable_classrooms", "Sem 5-A (Room 101), Sem 5-B (Room 102), Sem 5-C (Room 103)") ?: "Sem 5-A (Room 101), Sem 5-B (Room 102), Sem 5-C (Room 103)"
+        set(value) = prefs.edit().putString("key_timetable_classrooms", value).apply()
+
+    var timetableLabs: String
+        get() = prefs.getString("key_timetable_labs", "APL-1, APL-2, BPL-1 (Lab 302, Lab 304)") ?: "APL-1, APL-2, BPL-1 (Lab 302, Lab 304)"
+        set(value) = prefs.edit().putString("key_timetable_labs", value).apply()
+
+    var timetableWeeklyHours: String
+        get() = prefs.getString("key_timetable_weekly_hours", "30 Hours/Week (12 Th + 18 Prac)") ?: "30 Hours/Week (12 Th + 18 Prac)"
+        set(value) = prefs.edit().putString("key_timetable_weekly_hours", value).apply()
+
+    var customTimetablePdfPath: String
+        get() = prefs.getString("key_custom_timetable_pdf_path", "") ?: ""
+        set(value) = prefs.edit().putString("key_custom_timetable_pdf_path", value).apply()
+
+    var customTimetablePdfName: String
+        get() = prefs.getString("key_custom_timetable_pdf_name", "") ?: ""
+        set(value) = prefs.edit().putString("key_custom_timetable_pdf_name", value).apply()
+
+    var geminiApiKey: String
+        get() = prefs.getString("key_gemini_api_key", "") ?: ""
+        set(value) = prefs.edit().putString("key_gemini_api_key", value).apply()
+
+    fun getCustomSyllabusPdf(subjectCode: String): String {
+        return prefs.getString("key_custom_syllabus_pdf_${subjectCode.trim().uppercase()}", "") ?: ""
+    }
+
+    fun setCustomSyllabusPdf(subjectCode: String, path: String) {
+        prefs.edit().putString("key_custom_syllabus_pdf_${subjectCode.trim().uppercase()}", path).apply()
+    }
 
     /**
      * Save complete user login session with GP Rajkot verification data

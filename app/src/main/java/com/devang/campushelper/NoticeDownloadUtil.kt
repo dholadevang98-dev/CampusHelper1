@@ -25,15 +25,16 @@ object NoticeDownloadUtil {
     )
 
     data class NoticeModel(
-        val fileName: String,
-        val title: String,
-        val tag: String,
-        val tagColorRes: Int,
-        val dateText: String,
-        val description: String
+        var fileName: String,
+        var title: String,
+        var tag: String,
+        var tagColorRes: Int,
+        var dateText: String,
+        var description: String,
+        var customFilePath: String? = null
     )
 
-    val NOTICES_LIST = listOf(
+    val NOTICES_LIST = mutableListOf(
         NoticeModel(
             fileName = "Sem5 - Mid Sem Result.pdf",
             title = "Semester 5 Mid-Sem Exam Marks / Results",
@@ -60,23 +61,59 @@ object NoticeDownloadUtil {
         )
     )
 
+    fun addNotice(notice: NoticeModel) {
+        NOTICES_LIST.add(0, notice)
+    }
+
+    fun removeNotice(index: Int): Boolean {
+        if (index in 0 until NOTICES_LIST.size) {
+            NOTICES_LIST.removeAt(index)
+            return true
+        }
+        return false
+    }
+
     /**
      * Opens an individual PDF notice using the system PDF viewer via FileProvider.
      */
-    fun openCircularPdf(context: Context, fileName: String, displayName: String = fileName) {
+    fun openCircularPdf(context: Context, fileName: String, displayName: String = fileName, customFilePath: String? = null) {
         try {
-            val downloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: context.cacheDir
-            val destFile = File(downloadDir, fileName)
+            val destFile: File
+            if (customFilePath != null && File(customFilePath).exists() && File(customFilePath).length() > 0L) {
+                destFile = File(customFilePath)
+            } else {
+                val directCheck = File(context.filesDir, fileName)
+                if (directCheck.exists() && directCheck.length() > 0L) {
+                    destFile = directCheck
+                } else {
+                    val uploadedCheck = File(context.filesDir, "notices_uploaded/$fileName")
+                    if (uploadedCheck.exists() && uploadedCheck.length() > 0L) {
+                        destFile = uploadedCheck
+                    } else {
+                        val downloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: context.cacheDir
+                        destFile = File(downloadDir, fileName)
 
-            // Ensure destination file is refreshed from assets with the authentic PDF bytes
-            val assetPath = "notices/$fileName"
-            context.assets.open(assetPath).use { input ->
-                val assetSize = input.available().toLong()
-                if (!destFile.exists() || destFile.length() != assetSize || destFile.length() == 0L) {
-                    FileOutputStream(destFile).use { output ->
-                        input.copyTo(output)
+                        // Ensure destination file is refreshed from assets with the authentic PDF bytes
+                        val assetPath = "notices/$fileName"
+                        try {
+                            context.assets.open(assetPath).use { input ->
+                                val assetSize = input.available().toLong()
+                                if (!destFile.exists() || destFile.length() != assetSize || destFile.length() == 0L) {
+                                    FileOutputStream(destFile).use { output ->
+                                        input.copyTo(output)
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.w(TAG, "Asset notice not found: $fileName", e)
+                        }
                     }
                 }
+            }
+
+            if (!destFile.exists() || destFile.length() == 0L) {
+                Toast.makeText(context, "PDF file not available: $displayName", Toast.LENGTH_SHORT).show()
+                return
             }
 
             val fileUri: Uri = FileProvider.getUriForFile(
@@ -87,11 +124,19 @@ object NoticeDownloadUtil {
 
             val viewIntent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(fileUri, "application/pdf")
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            val resInfoList = context.packageManager.queryIntentActivities(viewIntent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+            for (resolveInfo in resInfoList) {
+                val packageName = resolveInfo.activityInfo.packageName
+                context.grantUriPermission(packageName, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
 
             val chooser = Intent.createChooser(viewIntent, "Open $displayName")
-            chooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(chooser)
             Toast.makeText(context, "Opening $displayName 📄", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {

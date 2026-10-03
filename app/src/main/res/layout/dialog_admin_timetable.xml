@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Drag Handle -->
+        <View
+            android:layout_width="44dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/bg_chip_status" />
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_badge_pill"
+                android:backgroundTint="@color/icon_bg_timetable">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Timetable Manager"
+                    android:src="@drawable/ic_timetable"
+                    app:tint="@color/splash_accent_primary" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Timetable &amp; Term Manager"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Update Semester Schedule &amp; Classroom Allocations"
+                    android:textColor="@color/splash_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnTimetableClose"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="Close"
+                android:focusable="true"
+                android:padding="6dp"
+                android:src="@drawable/ic_close"
+                app:tint="@color/text_muted" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="@color/divider_color" />
+
+        <!-- Term Dates -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilTermDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Academic Term Dates &amp; W.E.F."
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTermDates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Classroom Allocation -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilClassrooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Semester Classrooms (e.g. Sem 5-A Rm 101, 5-B Rm 102)"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etClassrooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Lab Allocations -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Laboratories &amp; Practical Batches"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Weekly Hours & Working Days -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilWeeklyHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Weekly Hours &amp; Working Schedule"
+            android:textColorHint="@color/input_hint"
+            app:boxBackgroundColor="@color/input_bg"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/splash_accent_glow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etWeeklyHours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="14dp"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Attached PDF Picker Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Custom Timetable PDF Attachment"
+            android:textColor="@color/splash_accent_glow"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickTimetablePdf"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="📁 Choose Timetable PDF from Storage"
+            android:textAllCaps="false"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="12sp"
+            app:backgroundTint="@color/glass_card_bg_elevated"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/splash_accent_glow"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/tvSelectedTimetablePdfName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Default: Auto-generated Academic Timetable PDF"
+            android:textColor="@color/accent_cyan"
+            android:textSize="11sp" />
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveTimetable"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:fontFamily="sans-serif-bold"
+            android:letterSpacing="0.02"
+            android:text="💾 Update &amp; Publish Timetable to Students"
+            android:textAllCaps="false"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="14sp"
+            app:backgroundTint="@color/splash_accent_primary"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
